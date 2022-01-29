@@ -2,14 +2,14 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { baseEnv } from './environment.base';
-import { server1Env } from './environment.server1';
+import { baseEnv } from "./environment.base";
+import { server1Env } from "./environment.server1";
 
 /**
  * Development server specific envs
  */
 const devEnv: Partial<typeof baseEnv> = {
-  production: false,
+	production: false,
 };
 
 export const environment = Object.assign(baseEnv, server1Env, devEnv);

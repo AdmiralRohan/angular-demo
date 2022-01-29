@@ -4,12 +4,12 @@
  * Don't use it directly, use any server specific env file.
  */
 export const baseEnv = {
-  /**
-   * If using in production
-   */
-  production: true,
-  /**
-   * baseURL of server
-   */
-  apiBaseURL: '',
+	/**
+	 * If using in production
+	 */
+	production: true,
+	/**
+	 * baseURL of server
+	 */
+	apiBaseURL: "",
 };

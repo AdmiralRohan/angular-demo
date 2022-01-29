@@ -1,6 +1,10 @@
 <ng-container *ngIf="post">
 	<th scope="row">{{ post.id }}</th>
-	<td>{{ post.userId }}</td>
-	<td>{{ post.title }}</td>
+	<td>
+		<a [routerLink]="'/users/' + post.userId">{{ post.userId }}</a>
+	</td>
+	<td>
+		<a [routerLink]="'/posts/' + post.id">{{ post.title }}</a>
+	</td>
 	<td>{{ post.body }}</td>
 </ng-container>

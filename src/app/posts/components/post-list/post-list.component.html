@@ -1,0 +1,14 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">ID</th>
+			<th scope="col">User</th>
+			<th scope="col">Title</th>
+			<th scope="col">Content</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr app-post-list-item *ngFor="let post of postList" [post]="post"></tr>
+	</tbody>
+</table>

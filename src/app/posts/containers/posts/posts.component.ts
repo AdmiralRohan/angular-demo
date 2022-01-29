@@ -1,12 +1,16 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
+import { DataService } from "../../../core/http/data/data.service";
 
+/**
+ * Post list page
+ */
 @Component({
 	selector: "app-posts",
 	templateUrl: "./posts.component.html",
 	styleUrls: ["./posts.component.scss"],
 })
-export class PostsComponent implements OnInit {
-	constructor() {}
+export class PostsComponent {
+	posts$ = this.dataService.fetchPostList();
 
-	ngOnInit(): void {}
+	constructor(public dataService: DataService) {}
 }

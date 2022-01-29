@@ -1,1 +1,13 @@
-<p>posts works!</p>
+<h2>Posts</h2>
+
+<section class="mb-3">
+	<app-search-form></app-search-form>
+</section>
+
+<section *ngIf="posts$ | async as postList" class="mb-3">
+	<app-post-list [postList]="postList"></app-post-list>
+</section>
+
+<section>
+	<app-pagination></app-pagination>
+</section>

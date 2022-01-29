@@ -1,12 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 
+/**
+ * Individual post page
+ */
 @Component({
 	selector: "app-post",
 	templateUrl: "./post.component.html",
 	styleUrls: ["./post.component.scss"],
 })
-export class PostComponent implements OnInit {
-	constructor() {}
-
-	ngOnInit(): void {}
-}
+export class PostComponent {}

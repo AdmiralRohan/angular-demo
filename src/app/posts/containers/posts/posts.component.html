@@ -1,13 +1,19 @@
 <h2>Posts</h2>
 
-<section class="mb-3">
-	<app-search-form></app-search-form>
+<!-- Search form -->
+<section class="my-3">
+	<app-search-form
+		[filters]="filters"
+		(searchTermChange)="searchTermChanged($event)"
+	></app-search-form>
 </section>
 
+<!-- Post list -->
 <section *ngIf="posts$ | async as postList" class="mb-3">
 	<app-post-list [postList]="postList"></app-post-list>
 </section>
 
+<!-- Pagination -->
 <section>
 	<app-pagination></app-pagination>
 </section>

@@ -10,7 +10,8 @@
 		"test": "ng test --browsers=ChromeHeadless --include",
 		"test-all": "ng test --browsers=ChromeHeadless",
 		"coverage": "ng test --no-watch --code-coverage --browsers=ChromeHeadless",
-		"lint": "ng lint",
+		"lint": "npx eslint .",
+		"lint-fix": "npx eslint . --fix",
 		"prepare": "husky install"
 	},
 	"private": true,

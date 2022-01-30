@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { DataService } from "../../../core/http/data/data.service";
 import { SearchFilter } from "../../../core/interfaces/search-filter";
 import { SearchTermChangeEvent } from "../../../core/interfaces/search-term-change-event";
+import { PostsFacadeService } from "../../services/posts-facade.service";
 
 /**
  * Post list page
@@ -12,16 +12,18 @@ import { SearchTermChangeEvent } from "../../../core/interfaces/search-term-chan
 	styleUrls: ["./posts.component.scss"],
 })
 export class PostsComponent {
-	posts$ = this.dataService.fetchPostList();
+	posts$ = this.postsFacade.getPostList();
 	readonly filters: SearchFilter[] = [
-		{ id: "user", value: "User" },
+		{ id: "userId", value: "User" },
 		{ id: "title", value: "Title" },
-		{ id: "content", value: "Content" },
+		{ id: "body", value: "Content" },
 	];
 
-	constructor(public dataService: DataService) {}
+	constructor(public postsFacade: PostsFacadeService) {}
 
 	searchTermChanged(searchTermChangeEvent: SearchTermChangeEvent) {
-		console.log(searchTermChangeEvent);
+		this.postsFacade.search(searchTermChangeEvent);
+		// TODO: Should reflect automatically
+		this.posts$ = this.postsFacade.getPostList();
 	}
 }

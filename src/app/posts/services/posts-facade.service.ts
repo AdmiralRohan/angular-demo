@@ -3,6 +3,7 @@ import { filter, first, map, Observable } from "rxjs";
 import { DataService } from "../../core/http/data/data.service";
 import { Post } from "../../core/interfaces/post";
 import { SearchTermChangeEvent } from "../../core/interfaces/search-term-change-event";
+import { SortDirection } from "../../core/interfaces/sort-direction";
 import { Store } from "../../core/store";
 
 @Injectable({
@@ -13,6 +14,9 @@ export class PostsFacadeService {
 
 	get filteredPosts$(): Observable<Post[]> {
 		return this._store.select("filteredPosts");
+	}
+	get postSortDirection$(): Observable<SortDirection> {
+		return this._store.select("postSortDirection");
 	}
 
 	/**
@@ -56,7 +60,15 @@ export class PostsFacadeService {
 
 	sort() {
 		const filteredList: Post[] = this._store.getLatestValue("filteredPosts");
-		const sortedList = filteredList.sort((a, b) => b.id - a.id);
+		const postSortDirection: SortDirection = this._store.getLatestValue("postSortDirection");
+
+		const sortedList = filteredList.sort((a, b) =>
+			postSortDirection === "asc" ? b.id - a.id : a.id - b.id,
+		);
 		this._store.set("filteredPosts", sortedList);
+	}
+
+	changeSortDirection(sortDirection: SortDirection) {
+		this._store.set("postSortDirection", sortDirection);
 	}
 }

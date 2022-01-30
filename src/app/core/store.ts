@@ -6,11 +6,13 @@ import { Post } from "./interfaces/post";
 interface State {
 	posts: Post[];
 	filteredPosts: Post[];
+	postSortDirection: "asc" | "desc";
 }
 
 const initialState: State = {
 	filteredPosts: [],
 	posts: [],
+	postSortDirection: "desc",
 };
 
 @Injectable({

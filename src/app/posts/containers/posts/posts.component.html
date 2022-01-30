@@ -12,7 +12,12 @@
 
 <!-- Post list -->
 <section *ngIf="filteredPosts$ | async as filteredPosts" class="mb-3">
-	<app-post-list [postList]="filteredPosts" (sortListEvent)="sortList()"></app-post-list>
+	<app-post-list
+		[postList]="filteredPosts"
+		[sortDirection]="postSortDirection$ | async"
+		(sortListEvent)="sortList()"
+		(changeSortDirectionEvent)="changeSortDirection($event)"
+	></app-post-list>
 </section>
 
 <!-- Pagination -->

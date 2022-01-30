@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SearchFilter } from "../../../core/interfaces/search-filter";
 import { SearchTermChangeEvent } from "../../../core/interfaces/search-term-change-event";
+import { SortDirection } from "../../../core/interfaces/sort-direction";
 import { PostsFacadeService } from "../../services/posts-facade.service";
 
 /**
@@ -14,6 +15,8 @@ import { PostsFacadeService } from "../../services/posts-facade.service";
 })
 export class PostsComponent implements OnInit {
 	filteredPosts$ = this.postsFacade.filteredPosts$;
+	postSortDirection$ = this.postsFacade.postSortDirection$;
+
 	readonly filters: SearchFilter[] = [
 		{ id: "userId", value: "User" },
 		{ id: "title", value: "Title" },
@@ -73,5 +76,9 @@ export class PostsComponent implements OnInit {
 
 	sortList() {
 		this.postsFacade.sort();
+	}
+
+	changeSortDirection(sortDirection: SortDirection) {
+		this.postsFacade.changeSortDirection(sortDirection);
 	}
 }

@@ -5,7 +5,6 @@ import { DataService } from "../../core/http/data/data.service";
 import { PaginationRange } from "../../core/interfaces/pagination-range";
 import { Post } from "../../core/interfaces/post";
 import { QueryParams } from "../../core/interfaces/query-params";
-import { SearchTermChangeEvent } from "../../core/interfaces/search-term-change-event";
 import { SortDirection } from "../../core/interfaces/sort-direction";
 import { Store } from "../../core/store";
 
@@ -41,56 +40,9 @@ export class PostsFacadeService {
 	 */
 	fetchAndSavePostList() {
 		this._dataService.fetchPostList().subscribe((postListFromAPI) => {
-			// this._store.set("paginatedPosts", postListFromAPI);
 			this._store.set("filteredPosts", postListFromAPI);
 			this._store.set("posts", postListFromAPI);
 		});
-	}
-
-	search(searchTermChangeEvent: SearchTermChangeEvent) {
-		const isStringMatching = (targetStr: string, searchTerm: string) => {
-			return targetStr.toString().toLowerCase().includes(searchTerm.toLowerCase());
-		};
-
-		this._store
-			.select("posts")
-			.pipe(
-				filter((posts: Post[]) => posts.length > 0),
-				first(),
-				map((posts: Post[]) => {
-					return searchTermChangeEvent.searchTerm
-						? posts.filter((post) => {
-								const { selectedFilter } = searchTermChangeEvent;
-
-								// TODO: Hack to fix `No index signature with a parameter of type 'string' was found on type 'Post'` (ts7053)
-								return isStringMatching(
-									(post as any)[selectedFilter],
-									searchTermChangeEvent.searchTerm,
-								);
-						  })
-						: posts;
-				}),
-			)
-			.subscribe((filteredPosts) => {
-				this._store.set("filteredPosts", filteredPosts);
-				this.paginate({ startIndex: 0, endIndex: 4 });
-			});
-	}
-
-	// * Sorting on both directions
-	/**
-	 * Update queryParams on store
-	 */
-	sort() {
-		// const paginatedList: Post[] = this._store.getLatestValue("paginatedPosts");
-		const postSortDirection: SortDirection = this._store.getLatestValue("postSortDirection");
-		const newSortDirection = postSortDirection === "asc" ? "desc" : "asc";
-		this._store.set("postSortDirection", newSortDirection);
-
-		// const sortedList = paginatedList.sort((a, b) =>
-		// 	postSortDirection === "asc" ? b.id - a.id : a.id - b.id,
-		// );
-		// this._store.set("filteredPosts", sortedList);
 	}
 
 	changeSortDirection(sortDirection: SortDirection) {
@@ -103,10 +55,8 @@ export class PostsFacadeService {
 			(_: Post, index: number) =>
 				index >= paginationRange.startIndex && index <= paginationRange.endIndex,
 		);
-		console.log(paginationRange, paginatedList);
-		// setTimeout(() => {
+
 		this._store.set("paginatedPosts", paginatedList);
-		// }, 5000);
 	}
 
 	/**
@@ -140,33 +90,19 @@ export class PostsFacadeService {
 	listenToQueryParamsChange() {
 		let isFirstTime = true;
 		this._route.queryParams.subscribe((params) => {
-			// this.searchStrFromUrl = queryParams["search"];
-			// this.filterByFromUrl = queryParams["filterBy"];
-			// this.currentPage = +queryParams["page"] || 1;
-
-			// Convert angular's native param to our interface type
-			// console.log(params);
-
 			const queryParams: QueryParams = {
 				search: params["search"] || "",
 				filterBy: params["filterBy"] || "",
 				page: +params["page"] || 1,
 				sort: params["sort"],
 			};
-			// const queryParams = Object.keys(params).map((param) => {
-			// 	const value = params[param];
-			// 	console.log(param, value);
-			// });
+
 			if (isFirstTime) {
 				isFirstTime = false;
 				this.appendToQueryParams(queryParams);
 			}
 
 			this._filterList(queryParams);
-			// this.postsFacade.search({
-			// 	searchTerm: this.searchStrFromUrl,
-			// 	selectedFilter: this.filterByFromUrl,
-			// });
 		});
 	}
 
@@ -180,10 +116,6 @@ export class PostsFacadeService {
 		const isStringMatching = (targetStr: string, searchTerm: string) => {
 			return targetStr.toString().toLowerCase().includes(searchTerm.toLowerCase());
 		};
-
-		// const paginateAndSave = (filteredPosts: Post[]) => {
-		// 	this._store.set("filteredPosts", filteredPosts);
-		// };
 
 		this._store
 			.select("posts")
@@ -200,12 +132,6 @@ export class PostsFacadeService {
 				}),
 			)
 			.subscribe((filteredPosts) => {
-				// this._store.set("filteredPosts", filteredPosts);
-				// this.paginate({ startIndex: 0, endIndex: 4 });
-
-				// const postSortDirection: SortDirection = this._store.getLatestValue("postSortDirection");
-				// console.log(queryParams.sort);
-
 				if (queryParams.sort) {
 					const newSortDirection = queryParams.sort === "asc" ? "desc" : "asc";
 					this._store.set("postSortDirection", newSortDirection);
@@ -221,9 +147,4 @@ export class PostsFacadeService {
 				}
 			});
 	}
-
-	// paginate(paginationRange: PaginationRange) {
-	// 	console.log(paginationRange);
-
-	// }
 }

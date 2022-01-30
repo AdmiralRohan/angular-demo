@@ -37,14 +37,9 @@ export class PaginationComponent implements OnChanges {
 	ngOnChanges(changes: SimpleChanges): void {
 		if (this.isFirstLoad && changes["list"].currentValue.length > 0) {
 			this.isFirstLoad = false;
+			// TODO: Hack to avoid ExpressionChangedAfterChangeDetection error
 			setTimeout(() => {
 				this._emitPageRange();
-
-				// console.log(this.shouldShowNextButton, this.noOfPages);
-				// if (!this.shouldShowNextButton) {
-				// 	this.currentPage = this.noOfPages;
-				// 	this.currentPageChange.emit(this.currentPage);
-				// }
 			}, 0);
 		}
 	}

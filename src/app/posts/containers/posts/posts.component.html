@@ -3,14 +3,16 @@
 <!-- Search form -->
 <section class="my-3">
 	<app-search-form
+		[searchStrFromUrl]="searchStrFromUrl"
+		[filterByFromUrl]="filterByFromUrl"
 		[filters]="filters"
 		(searchTermChange)="searchTermChanged($event)"
 	></app-search-form>
 </section>
 
 <!-- Post list -->
-<section *ngIf="posts$ | async as postList" class="mb-3">
-	<app-post-list [postList]="postList"></app-post-list>
+<section *ngIf="filteredPosts$ | async as filteredPosts" class="mb-3">
+	<app-post-list [postList]="filteredPosts"></app-post-list>
 </section>
 
 <!-- Pagination -->

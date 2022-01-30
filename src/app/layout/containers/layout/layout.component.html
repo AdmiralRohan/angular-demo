@@ -1,2 +1,12 @@
-<p>layout works!</p>
-<router-outlet></router-outlet>
+<!-- Global layout -->
+<div class="wrapper d-flex flex-row">
+	<div class="col-sm-3">
+		<app-left-nav></app-left-nav>
+	</div>
+
+	<main class="d-flex flex-column col-sm-9 content-wrapper p-3">
+		<app-header *ngIf="false"></app-header>
+		<app-breadcrumb></app-breadcrumb>
+		<router-outlet></router-outlet>
+	</main>
+</div>

@@ -1,1 +1,33 @@
-<p>posts works!</p>
+<h2>Posts</h2>
+
+<!-- Search form -->
+<section *ngIf="queryParams$ | async as queryParams" class="my-3">
+	<app-search-form
+		[searchStrFromUrl]="queryParams['search']"
+		[filterByFromUrl]="queryParams['filterBy']"
+		[filters]="filters"
+		(searchTermChange)="searchTermChanged($event)"
+	></app-search-form>
+</section>
+
+<!-- Post list -->
+<section *ngIf="paginatedPosts$ | async as paginatedPosts" class="mb-3">
+	<app-post-list
+		[postList]="paginatedPosts"
+		[sortDirection]="postsFacade.sortDirection"
+		(sortListEvent)="sortList()"
+		(changeSortDirectionEvent)="changeSortDirection($event)"
+	></app-post-list>
+</section>
+
+<!-- Pagination -->
+<section *ngIf="filteredPosts$ | async as filteredPosts">
+	<ng-container *ngIf="queryParams$ | async as queryParams">
+		<app-pagination
+			[list]="filteredPosts"
+			[currentPage]="queryParams['page']"
+			(currentPageChange)="addPageToQueryParam($event)"
+			(paginationRangeChange)="paginate($event)"
+		></app-pagination>
+	</ng-container>
+</section>

@@ -1,0 +1,20 @@
+<div class="row g-2">
+	<!-- Search Term -->
+	<div class="col-3">
+		<input
+			type="text"
+			class="form-control"
+			placeholder="Search"
+			aria-label="Search"
+			[formControl]="searchTerm"
+		/>
+	</div>
+
+	<!-- Filter -->
+	<div class="col-3">
+		<select class="form-select" aria-label="Search filters" [formControl]="selectedFilter">
+			<!-- <option value="">Select filter</option> -->
+			<option *ngFor="let filter of filters" [value]="filter.id">{{ filter.value }}</option>
+		</select>
+	</div>
+</div>

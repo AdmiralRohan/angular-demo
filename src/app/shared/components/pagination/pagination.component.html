@@ -1,0 +1,23 @@
+<div class="d-flex justify-content-center mt-4" aria-label="Pagination">
+	<ul class="pagination">
+		<li class="page-item" [class.disabled]="!shouldShowPreviousButton" (click)="goToPreviousPage()">
+			<a appPreventDefaultEvent class="page-link" href="#" tabindex="-1">Previous</a>
+		</li>
+
+		<li *ngIf="shouldShowPreviousButton" class="page-item" (click)="goToPreviousPage()">
+			<a appPreventDefaultEvent class="page-link" href="#">{{ currentPage - 1 }}</a>
+		</li>
+
+		<li class="page-item active">
+			<a appPreventDefaultEvent class="page-link" href="#">{{ currentPage }}</a>
+		</li>
+
+		<li *ngIf="shouldShowNextButton" class="page-item" (click)="goToNextPage()">
+			<a appPreventDefaultEvent class="page-link" href="#">{{ currentPage + 1 }}</a>
+		</li>
+
+		<li [class.disabled]="!shouldShowNextButton" class="page-item" (click)="goToNextPage()">
+			<a appPreventDefaultEvent class="page-link" href="#">Next</a>
+		</li>
+	</ul>
+</div>

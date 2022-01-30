@@ -29,12 +29,12 @@ export class PostsFacadeService {
 	get queryParams$(): Observable<QueryParams> {
 		return this._store.select("queryParams");
 	}
-	// get paginatedPosts$(): Observable<Post[]> {
-	// 	return this._store.select("paginatedPosts");
-	// }
-	// get postSortDirection$(): Observable<SortDirection> {
-	// 	return this._store.select("postSortDirection");
-	// }
+	get paginatedPosts$(): Observable<Post[]> {
+		return this._store.select("paginatedPosts");
+	}
+	get sortDirection(): SortDirection {
+		return this._store.getLatestValue("postSortDirection");
+	}
 
 	/**
 	 * Fetch and save post list in store
@@ -104,7 +104,9 @@ export class PostsFacadeService {
 				index >= paginationRange.startIndex && index <= paginationRange.endIndex,
 		);
 		console.log(paginationRange, paginatedList);
-		// this._store.set("paginatedPosts", paginatedList);
+		// setTimeout(() => {
+		this._store.set("paginatedPosts", paginatedList);
+		// }, 5000);
 	}
 
 	/**
@@ -137,22 +139,91 @@ export class PostsFacadeService {
 	 */
 	listenToQueryParamsChange() {
 		let isFirstTime = true;
-		this._route.queryParams.subscribe((queryParams) => {
+		this._route.queryParams.subscribe((params) => {
 			// this.searchStrFromUrl = queryParams["search"];
 			// this.filterByFromUrl = queryParams["filterBy"];
 			// this.currentPage = +queryParams["page"] || 1;
 
+			// Convert angular's native param to our interface type
+			// console.log(params);
+
+			const queryParams: QueryParams = {
+				search: params["search"] || "",
+				filterBy: params["filterBy"] || "",
+				page: +params["page"] || 1,
+				sort: params["sort"],
+			};
+			// const queryParams = Object.keys(params).map((param) => {
+			// 	const value = params[param];
+			// 	console.log(param, value);
+			// });
 			if (isFirstTime) {
 				isFirstTime = false;
 				this.appendToQueryParams(queryParams);
 			}
 
-			console.log("Route param changed", queryParams);
-
+			this._filterList(queryParams);
 			// this.postsFacade.search({
 			// 	searchTerm: this.searchStrFromUrl,
 			// 	selectedFilter: this.filterByFromUrl,
 			// });
 		});
 	}
+
+	/**
+	 * Filter and save list in store, based on queryparams
+	 * @param queryParams
+	 */
+	private _filterList(queryParams: QueryParams) {
+		console.log("Route param changed", queryParams);
+
+		const isStringMatching = (targetStr: string, searchTerm: string) => {
+			return targetStr.toString().toLowerCase().includes(searchTerm.toLowerCase());
+		};
+
+		// const paginateAndSave = (filteredPosts: Post[]) => {
+		// 	this._store.set("filteredPosts", filteredPosts);
+		// };
+
+		this._store
+			.select("posts")
+			.pipe(
+				filter((posts: Post[]) => posts.length > 0),
+				first(),
+				map((posts: Post[]) => {
+					return queryParams.search
+						? posts.filter((post) => {
+								// TODO: Hack to fix `No index signature with a parameter of type 'string' was found on type 'Post'` (ts7053)
+								return isStringMatching((post as any)[queryParams.filterBy], queryParams.search);
+						  })
+						: posts;
+				}),
+			)
+			.subscribe((filteredPosts) => {
+				// this._store.set("filteredPosts", filteredPosts);
+				// this.paginate({ startIndex: 0, endIndex: 4 });
+
+				// const postSortDirection: SortDirection = this._store.getLatestValue("postSortDirection");
+				// console.log(queryParams.sort);
+
+				if (queryParams.sort) {
+					const newSortDirection = queryParams.sort === "asc" ? "desc" : "asc";
+					this._store.set("postSortDirection", newSortDirection);
+
+					const sortedList = filteredPosts.sort((a, b) =>
+						newSortDirection === "asc" ? b.id - a.id : a.id - b.id,
+					);
+					this._store.set("filteredPosts", sortedList);
+					if (sortedList.length === 0) this._store.set("paginatedPosts", []);
+				} else {
+					this._store.set("filteredPosts", filteredPosts);
+					if (filteredPosts.length === 0) this._store.set("paginatedPosts", []);
+				}
+			});
+	}
+
+	// paginate(paginationRange: PaginationRange) {
+	// 	console.log(paginationRange);
+
+	// }
 }

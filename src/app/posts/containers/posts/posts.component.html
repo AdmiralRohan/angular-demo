@@ -11,11 +11,11 @@
 </section>
 
 <!-- Post list -->
-<!-- <section *ngIf="paginatedPosts$ | async as paginatedPosts" class="mb-3"> -->
-<section *ngIf="filteredPosts$ | async as filteredPosts" class="mb-3">
+<!-- <section *ngIf="filteredPosts$ | async as filteredPosts" class="mb-3"> -->
+<section *ngIf="paginatedPosts$ | async as paginatedPosts" class="mb-3">
 	<app-post-list
-		[postList]="filteredPosts"
-		[sortDirection]="sortDirection"
+		[postList]="paginatedPosts"
+		[sortDirection]="postsFacade.sortDirection"
 		(sortListEvent)="sortList()"
 		(changeSortDirectionEvent)="changeSortDirection($event)"
 	></app-post-list>
@@ -23,6 +23,12 @@
 
 <!-- Pagination -->
 <section *ngIf="filteredPosts$ | async as filteredPosts">
-	<app-pagination [list]="filteredPosts" (currentPageChange)="paginate($event)"></app-pagination>
-	<!-- (paginationRangeChange)="paginate($event)" -->
+	<ng-container *ngIf="queryParams$ | async as queryParams">
+		<app-pagination
+			[list]="filteredPosts"
+			[currentPage]="queryParams['page']"
+			(currentPageChange)="addPageToQueryParam($event)"
+			(paginationRangeChange)="paginate($event)"
+		></app-pagination>
+	</ng-container>
 </section>

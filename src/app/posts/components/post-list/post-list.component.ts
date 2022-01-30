@@ -29,4 +29,8 @@ export class PostListComponent {
 		this._changeSortDirection();
 		this.sortListEvent.emit(true);
 	}
+
+	listTrackById(index: number, post: Post): number {
+		return post.id;
+	}
 }

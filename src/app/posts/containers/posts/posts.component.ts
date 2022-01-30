@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { PaginationRange } from "../../../core/interfaces/pagination-range";
+import { QueryParams } from "../../../core/interfaces/query-params";
 import { SearchFilter } from "../../../core/interfaces/search-filter";
 import { SearchTermChangeEvent } from "../../../core/interfaces/search-term-change-event";
 import { SortDirection } from "../../../core/interfaces/sort-direction";
@@ -14,15 +16,15 @@ import { PostsFacadeService } from "../../services/posts-facade.service";
 	styleUrls: ["./posts.component.scss"],
 })
 export class PostsComponent implements OnInit {
-	// paginatedPosts$ = this.postsFacade.paginatedPosts$;
 	filteredPosts$ = this.postsFacade.filteredPosts$;
+	paginatedPosts$ = this.postsFacade.paginatedPosts$;
 	queryParams$ = this.postsFacade.queryParams$;
 	// postSortDirection$ = this.postsFacade.postSortDirection$;
 	// currentPage = 1;
 	/**
 	 * Indicates in which way we are going to sort next if triggered
 	 */
-	sortDirection: SortDirection = "none";
+	// sortDirection!: SortDirection;
 
 	readonly filters: SearchFilter[] = [
 		{ id: "title", value: "Title" },
@@ -65,9 +67,10 @@ export class PostsComponent implements OnInit {
 	 * Listening to children events
 	 */
 	searchTermChanged(searchTermChangeEvent: SearchTermChangeEvent) {
-		const queryParams: any = {
+		const queryParams: Partial<QueryParams> = {
 			search: searchTermChangeEvent.searchTerm,
 			filterBy: searchTermChangeEvent.selectedFilter,
+			// page: 1, // reset it to avoid bugs, if new result has fewer pages
 		};
 		this.postsFacade.appendToQueryParams(queryParams);
 		// if (searchTermChangeEvent.searchTerm)
@@ -85,8 +88,23 @@ export class PostsComponent implements OnInit {
 	 */
 	sortList() {
 		// "none" will convert into "desc", which is the default sorting mode
-		const newSortDirection = this.sortDirection === "desc" ? "asc" : "desc";
-		this.postsFacade.appendToQueryParams({ sort: newSortDirection });
+		// console.log(this.postsFacade.sortDirection);
+
+		// none
+		// let newSortDirection: SortDirection = "none";
+		// switch (this.postsFacade.sortDirection) {
+		// 	case "desc":
+		// 		newSortDirection = "asc";
+		// 		break;
+		// 	case "asc":
+		// 	case "none":
+		// 	case undefined:
+		// 		newSortDirection = "desc";
+		// 		break;
+		// }
+		// const newSortDirection = this.postsFacade.sortDirection === "desc" ? "asc" : "desc";
+		this.postsFacade.appendToQueryParams({ sort: this.postsFacade.sortDirection });
+		// this.postsFacade.appendToQueryParams({ sort: newSortDirection });
 		// this.postsFacade.sort();
 	}
 
@@ -101,9 +119,15 @@ export class PostsComponent implements OnInit {
 	/**
 	 * Listening to children events
 	 */
-	// paginate(paginationRange: PaginationRange) {
-	paginate(currentPage: number) {
+	addPageToQueryParam(currentPage: number) {
 		this.postsFacade.appendToQueryParams({ page: currentPage });
 		// this.postsFacade.paginate(paginationRange);
+	}
+
+	/**
+	 * Listening to children events
+	 */
+	paginate(paginationRange: PaginationRange) {
+		this.postsFacade.paginate(paginationRange);
 	}
 }

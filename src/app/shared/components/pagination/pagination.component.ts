@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+	ChangeDetectionStrategy,
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	Output,
+	SimpleChanges,
+} from "@angular/core";
 import { PaginationRange } from "../../../core/interfaces/pagination-range";
 
 @Component({
@@ -7,17 +15,39 @@ import { PaginationRange } from "../../../core/interfaces/pagination-range";
 	styleUrls: ["./pagination.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnChanges {
+	/**
+	 * aka. paginatedList
+	 */
+	@Input() displayedList: any[] = [];
+	/**
+	 * filteredList (result of search and sort)
+	 */
 	@Input() list: any[] = [];
 	/**
-	 * @deprecated
 	 * This method will be used to filter before showing the list in view
 	 */
 	@Output() paginationRangeChange = new EventEmitter<PaginationRange>();
-
-	currentPage: number = 1;
 	@Output() currentPageChange = new EventEmitter<number>();
+
+	@Input() currentPage = 1;
 	perPage = 5;
+	isFirstLoad = true;
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (this.isFirstLoad && changes["list"].currentValue.length > 0) {
+			this.isFirstLoad = false;
+			setTimeout(() => {
+				this._emitPageRange();
+
+				// console.log(this.shouldShowNextButton, this.noOfPages);
+				// if (!this.shouldShowNextButton) {
+				// 	this.currentPage = this.noOfPages;
+				// 	this.currentPageChange.emit(this.currentPage);
+				// }
+			}, 0);
+		}
+	}
 
 	get shouldShowPreviousButton(): boolean {
 		return this.currentPage > 1;
@@ -32,29 +62,36 @@ export class PaginationComponent {
 		return this.list.length / this.perPage;
 	}
 
+	/**
+	 * Array index, starts from zero
+	 */
 	get startingEntry(): number {
 		return this.list.length === 0 ? 0 : this.perPage * (this.currentPage - 1);
 	}
+	/**
+	 * Array index, starts from zero
+	 */
 	get endingEntry(): number {
 		return (this.shouldShowNextButton ? this.perPage * this.currentPage : this.totalEntries) - 1;
+	}
+
+	private _emitPageRange() {
+		this.paginationRangeChange.emit({
+			startIndex: this.startingEntry,
+			endIndex: this.endingEntry,
+		});
 	}
 
 	goToPreviousPage() {
 		if (this.shouldShowPreviousButton) {
 			this.currentPageChange.emit(--this.currentPage);
-			this.paginationRangeChange.emit({
-				startIndex: this.startingEntry,
-				endIndex: this.endingEntry,
-			});
+			this._emitPageRange();
 		}
 	}
 	goToNextPage() {
 		if (this.shouldShowNextButton) {
 			this.currentPageChange.emit(++this.currentPage);
-			this.paginationRangeChange.emit({
-				startIndex: this.startingEntry,
-				endIndex: this.endingEntry,
-			});
+			this._emitPageRange();
 		}
 	}
 }

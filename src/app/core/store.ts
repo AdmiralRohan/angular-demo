@@ -19,8 +19,8 @@ interface State {
 	 */
 	paginatedPosts: Post[];
 	/**
-	 * @deprecated
-	 * Used to sort post list
+	 * Used to sort post list \
+	 * Need to use store for this as we are not calling route instance inside component
 	 */
 	postSortDirection: SortDirection;
 	/**
@@ -34,7 +34,7 @@ const initialState: State = {
 	posts: [],
 	filteredPosts: [],
 	paginatedPosts: [],
-	postSortDirection: "desc",
+	postSortDirection: "none",
 	queryParams: { search: "", filterBy: "title", page: 1 },
 };
 

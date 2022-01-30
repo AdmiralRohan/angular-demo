@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, distinctUntilKeyChanged, pluck } from "rxjs/operators";
+import { Photo } from "./interfaces/photo";
 import { Post } from "./interfaces/post";
 import { QueryParams } from "./interfaces/query-params";
 import { SortDirection } from "./interfaces/sort-direction";
@@ -28,6 +29,18 @@ interface State {
 	 * We will update the query params and subscribe to param changes. Then filtering will happen from one place.
 	 */
 	queryParams: QueryParams;
+	/**
+	 * Holds photo list from API
+	 */
+	photos: Photo[];
+	/**
+	 * Initially list from API is filtered out by search term (if any)
+	 */
+	filteredPhotos: Photo[];
+	/**
+	 * Filtered photos are paginated and used in view
+	 */
+	paginatedPhotos: Photo[];
 }
 
 const initialState: State = {
@@ -36,6 +49,9 @@ const initialState: State = {
 	paginatedPosts: [],
 	postSortDirection: "none",
 	queryParams: { search: "", filterBy: "title", page: 1 },
+	photos: [],
+	filteredPhotos: [],
+	paginatedPhotos: [],
 };
 
 @Injectable({

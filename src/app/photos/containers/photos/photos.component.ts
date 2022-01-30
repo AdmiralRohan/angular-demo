@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { PhotosFacadeService } from "../../services/photos-facade.service";
 
 @Component({
 	selector: "app-photos",
@@ -6,7 +7,14 @@ import { Component, OnInit } from "@angular/core";
 	styleUrls: ["./photos.component.scss"],
 })
 export class PhotosComponent implements OnInit {
-	constructor() {}
+	filteredPhotos$ = this.photosFacade.filteredPhotos$;
+	paginatedPhotos$ = this.photosFacade.paginatedPhotos$;
+	queryParams$ = this.photosFacade.queryParams$;
 
-	ngOnInit(): void {}
+	constructor(public photosFacade: PhotosFacadeService) {}
+
+	ngOnInit(): void {
+		this.photosFacade.fetchAndSavePhotoList();
+		this.filteredPhotos$.subscribe(console.log);
+	}
 }

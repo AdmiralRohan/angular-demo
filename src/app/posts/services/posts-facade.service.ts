@@ -147,4 +147,18 @@ export class PostsFacadeService {
 				}
 			});
 	}
+
+	getPostById(postId: number): Observable<Post | undefined> {
+		// TODO: Add Caching
+		return this._dataService.fetchPostById(postId);
+		// return this._store
+		// 	.select("posts")
+		// 	.pipe(map((posts: Post[]): Post | undefined => posts.find((post) => post.id === postId)));
+	}
+
+	getPageId(): number {
+		// const params = this._route.
+
+		return 1;
+	}
 }

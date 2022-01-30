@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { Post } from "../../../core/interfaces/post";
 
 @Component({
@@ -9,4 +9,9 @@ import { Post } from "../../../core/interfaces/post";
 })
 export class PostListComponent {
 	@Input() postList!: Post[];
+	@Output() sortListEvent = new EventEmitter<boolean>();
+
+	sortList() {
+		this.sortListEvent.emit(true);
+	}
 }

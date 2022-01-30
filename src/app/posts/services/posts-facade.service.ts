@@ -53,4 +53,10 @@ export class PostsFacadeService {
 				this._store.set("filteredPosts", filteredPosts);
 			});
 	}
+
+	sort() {
+		const filteredList: Post[] = this._store.getLatestValue("filteredPosts");
+		const sortedList = filteredList.sort((a, b) => b.id - a.id);
+		this._store.set("filteredPosts", sortedList);
+	}
 }

@@ -28,6 +28,10 @@ export class Store {
 		return this._store.pipe(distinctUntilKeyChanged(key), pluck(key));
 	}
 
+	getLatestValue(key: keyof State): any {
+		return this._subject.value[key];
+	}
+
 	set(key: keyof State, currentValue: any) {
 		this._subject.next({
 			...this._value,

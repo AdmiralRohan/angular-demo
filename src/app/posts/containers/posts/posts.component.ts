@@ -70,4 +70,8 @@ export class PostsComponent implements OnInit {
 			queryParams,
 		});
 	}
+
+	sortList() {
+		this.postsFacade.sort();
+	}
 }

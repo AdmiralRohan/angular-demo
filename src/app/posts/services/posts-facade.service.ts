@@ -155,10 +155,4 @@ export class PostsFacadeService {
 		// 	.select("posts")
 		// 	.pipe(map((posts: Post[]): Post | undefined => posts.find((post) => post.id === postId)));
 	}
-
-	getPageId(): number {
-		// const params = this._route.
-
-		return 1;
-	}
 }

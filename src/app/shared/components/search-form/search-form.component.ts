@@ -32,7 +32,7 @@ export class SearchFormComponent implements OnInit {
 			searchTerm: this.searchTerm.valueChanges,
 			selectedFilter: this.selectedFilter.valueChanges,
 		})
-			.pipe(distinctUntilChanged(), debounceTime(200))
+			.pipe(distinctUntilChanged(), debounceTime(400))
 			.subscribe(({ searchTerm, selectedFilter }) => {
 				this.searchTermChange.emit({ searchTerm, selectedFilter });
 			});

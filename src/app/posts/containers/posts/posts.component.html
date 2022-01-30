@@ -1,26 +1,28 @@
 <h2>Posts</h2>
 
 <!-- Search form -->
-<section class="my-3">
+<section *ngIf="queryParams$ | async as queryParams" class="my-3">
 	<app-search-form
-		[searchStrFromUrl]="searchStrFromUrl"
-		[filterByFromUrl]="filterByFromUrl"
+		[searchStrFromUrl]="queryParams['search']"
+		[filterByFromUrl]="queryParams['filterBy']"
 		[filters]="filters"
 		(searchTermChange)="searchTermChanged($event)"
 	></app-search-form>
 </section>
 
 <!-- Post list -->
+<!-- <section *ngIf="paginatedPosts$ | async as paginatedPosts" class="mb-3"> -->
 <section *ngIf="filteredPosts$ | async as filteredPosts" class="mb-3">
 	<app-post-list
 		[postList]="filteredPosts"
-		[sortDirection]="postSortDirection$ | async"
+		[sortDirection]="sortDirection"
 		(sortListEvent)="sortList()"
 		(changeSortDirectionEvent)="changeSortDirection($event)"
 	></app-post-list>
 </section>
 
 <!-- Pagination -->
-<section>
-	<app-pagination></app-pagination>
+<section *ngIf="filteredPosts$ | async as filteredPosts">
+	<app-pagination [list]="filteredPosts" (currentPageChange)="paginate($event)"></app-pagination>
+	<!-- (paginationRangeChange)="paginate($event)" -->
 </section>

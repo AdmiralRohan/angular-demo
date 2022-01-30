@@ -14,23 +14,30 @@ import { PostsFacadeService } from "../../services/posts-facade.service";
 	styleUrls: ["./posts.component.scss"],
 })
 export class PostsComponent implements OnInit {
+	// paginatedPosts$ = this.postsFacade.paginatedPosts$;
 	filteredPosts$ = this.postsFacade.filteredPosts$;
-	postSortDirection$ = this.postsFacade.postSortDirection$;
+	queryParams$ = this.postsFacade.queryParams$;
+	// postSortDirection$ = this.postsFacade.postSortDirection$;
+	// currentPage = 1;
+	/**
+	 * Indicates in which way we are going to sort next if triggered
+	 */
+	sortDirection: SortDirection = "none";
 
 	readonly filters: SearchFilter[] = [
-		{ id: "userId", value: "User" },
 		{ id: "title", value: "Title" },
 		{ id: "body", value: "Content" },
+		{ id: "userId", value: "User" },
 	];
 
 	/**
 	 * If user puts the search string in URL directly
 	 */
-	searchStrFromUrl = "";
+	// searchStrFromUrl = "";
 	/**
 	 * If user puts the filterBy string in URL directly
 	 */
-	filterByFromUrl = "";
+	// filterByFromUrl = "";
 
 	constructor(
 		public postsFacade: PostsFacadeService,
@@ -40,45 +47,63 @@ export class PostsComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.postsFacade.fetchAndSavePostList();
-		this.filteredPosts$.subscribe(console.log);
-
-		this._route.queryParams.subscribe((queryParams) => {
-			this.searchStrFromUrl = queryParams["search"];
-			this.filterByFromUrl = queryParams["filterBy"];
-
-			console.log("Params", queryParams);
-
-			this.postsFacade.search({
-				searchTerm: this.searchStrFromUrl,
-				selectedFilter: this.filterByFromUrl,
-			});
-		});
+		this.postsFacade.addQueryParamsToRoute();
+		this.postsFacade.listenToQueryParamsChange();
+		// this.paginatedPosts$.subscribe(console.log);
 
 		// TODO: Hack to reflect view after first time page load
-		setTimeout(() => {
-			this.filteredPosts$ = this.postsFacade.filteredPosts$;
-		}, 1000);
+		// setTimeout(() => {
+		// this.paginatedPosts$ = this.postsFacade.paginatedPosts$;
+		// this.filteredPosts$ = this.postsFacade.filteredPosts$;
+		// }, 1000);
+		// setInterval(() => {
+		// 	console.log(this.currentPage);
+		// }, 1000);
 	}
 
+	/**
+	 * Listening to children events
+	 */
 	searchTermChanged(searchTermChangeEvent: SearchTermChangeEvent) {
 		const queryParams: any = {
 			search: searchTermChangeEvent.searchTerm,
+			filterBy: searchTermChangeEvent.selectedFilter,
 		};
-		if (searchTermChangeEvent.searchTerm)
-			queryParams["filterBy"] = searchTermChangeEvent.selectedFilter;
+		this.postsFacade.appendToQueryParams(queryParams);
+		// if (searchTermChangeEvent.searchTerm)
+		// 	queryParams["filterBy"] = searchTermChangeEvent.selectedFilter;
 
 		// It will trigger searching
-		this._router.navigate([], {
-			relativeTo: this._route,
-			queryParams,
-		});
+		// this._router.navigate([], {
+		// 	relativeTo: this._route,
+		// 	queryParams,
+		// });
 	}
 
+	/**
+	 * Listening to children events
+	 */
 	sortList() {
-		this.postsFacade.sort();
+		// "none" will convert into "desc", which is the default sorting mode
+		const newSortDirection = this.sortDirection === "desc" ? "asc" : "desc";
+		this.postsFacade.appendToQueryParams({ sort: newSortDirection });
+		// this.postsFacade.sort();
 	}
 
+	/**
+	 * @deprecated
+	 * Listening to children events
+	 */
 	changeSortDirection(sortDirection: SortDirection) {
-		this.postsFacade.changeSortDirection(sortDirection);
+		// this.postsFacade.changeSortDirection(sortDirection);
+	}
+
+	/**
+	 * Listening to children events
+	 */
+	// paginate(paginationRange: PaginationRange) {
+	paginate(currentPage: number) {
+		this.postsFacade.appendToQueryParams({ page: currentPage });
+		// this.postsFacade.paginate(paginationRange);
 	}
 }

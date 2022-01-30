@@ -13,7 +13,7 @@
 	<!-- Filter -->
 	<div class="col-3">
 		<select class="form-select" aria-label="Search filters" [formControl]="selectedFilter">
-			<option value="">Select filter</option>
+			<!-- <option value="">Select filter</option> -->
 			<option *ngFor="let filter of filters" [value]="filter.id">{{ filter.value }}</option>
 		</select>
 	</div>

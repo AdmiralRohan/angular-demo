@@ -2,17 +2,40 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, distinctUntilKeyChanged, pluck } from "rxjs/operators";
 import { Post } from "./interfaces/post";
+import { QueryParams } from "./interfaces/query-params";
+import { SortDirection } from "./interfaces/sort-direction";
 
 interface State {
+	/**
+	 * Holds post list from API
+	 */
 	posts: Post[];
+	/**
+	 * Initially list from API is filtered out by search term (if any)
+	 */
 	filteredPosts: Post[];
-	postSortDirection: "asc" | "desc";
+	/**
+	 * Filtered posts are paginated and used in view
+	 */
+	paginatedPosts: Post[];
+	/**
+	 * @deprecated
+	 * Used to sort post list
+	 */
+	postSortDirection: SortDirection;
+	/**
+	 * List of query params. Storing at a centralized location for easier filtering purposes. \
+	 * We will update the query params and subscribe to param changes. Then filtering will happen from one place.
+	 */
+	queryParams: QueryParams;
 }
 
 const initialState: State = {
-	filteredPosts: [],
 	posts: [],
+	filteredPosts: [],
+	paginatedPosts: [],
 	postSortDirection: "desc",
+	queryParams: { search: "", filterBy: "title", page: 1 },
 };
 
 @Injectable({

@@ -13,7 +13,10 @@ import { SortDirection } from "../../../core/interfaces/sort-direction";
 })
 export class PostListComponent {
 	@Input() postList!: Post[];
-	@Input() sortDirection: SortDirection | null = "desc";
+	/**
+	 * Indicates in which way we are going to sort next if triggered
+	 */
+	@Input() sortDirection: SortDirection = "none";
 	@Output() sortListEvent = new EventEmitter<boolean>();
 	@Output() changeSortDirectionEvent = new EventEmitter<SortDirection>();
 

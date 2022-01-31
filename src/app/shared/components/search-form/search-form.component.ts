@@ -41,6 +41,17 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 	searchTermChange$!: Subscription;
 
 	ngOnInit(): void {
+		this._emitSearchTermChange();
+
+		this.searchTerm.setValue(this.searchStrFromUrl);
+		// If user doesn't give any filterBy in URL, use first one from list
+		const isFilterByAvailable = !!this.filters.filter(
+			(filter) => filter.id === this.filterByFromUrl,
+		).length;
+		this.selectedFilter.setValue(isFilterByAvailable ? this.filterByFromUrl : this.filters[0]?.id);
+	}
+
+	private _emitSearchTermChange() {
 		this.searchTermChange$ = combineLatest({
 			searchTerm: this.searchTerm.valueChanges,
 			selectedFilter: this.selectedFilter.valueChanges,
@@ -49,13 +60,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 			.subscribe(({ searchTerm, selectedFilter }) => {
 				this.searchTermChange.emit({ searchTerm, selectedFilter });
 			});
-
-		this.searchTerm.setValue(this.searchStrFromUrl);
-		// If user doesn't give any filterBy in URL, use first one from list
-		const isFilterByAvailable = !!this.filters.filter(
-			(filter) => filter.id === this.filterByFromUrl,
-		).length;
-		this.selectedFilter.setValue(isFilterByAvailable ? this.filterByFromUrl : this.filters[0]?.id);
 	}
 
 	ngOnDestroy(): void {

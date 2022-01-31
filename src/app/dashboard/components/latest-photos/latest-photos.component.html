@@ -1,0 +1,10 @@
+<div class="card h-mdl">
+	<div class="card-header">Recent Photos</div>
+	<div class="overflow-auto d-flex flex-row flex-wrap">
+		<div *ngFor="let photos of latestPhotos" class="card-body justify-content-around">
+			<img [src]="photos.thumbnailUrl" class="photos" />
+
+			<p class="text-truncate">{{ photos.title }}</p>
+		</div>
+	</div>
+</div>

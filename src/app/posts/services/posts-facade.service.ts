@@ -112,7 +112,7 @@ export class PostsFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		console.log("Route param changed", queryParams);
+		// console.log("Route param changed", queryParams);
 
 		this._store
 			.select("posts")
@@ -149,10 +149,8 @@ export class PostsFacadeService {
 	}
 
 	getPostById(postId: number): Observable<Post | undefined> {
-		// TODO: Add Caching
-		return this._dataService.fetchPostById(postId);
-		// return this._store
-		// 	.select("posts")
-		// 	.pipe(map((posts: Post[]): Post | undefined => posts.find((post) => post.id === postId)));
+		return this._store
+			.select("posts")
+			.pipe(map((posts: Post[]): Post | undefined => posts.find((post) => post.id === postId)));
 	}
 }

@@ -1,7 +1,13 @@
-<nav aria-label="breadcrumb">
+<nav class="mt-3" aria-label="breadcrumb">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#">Home</a></li>
-		<li class="breadcrumb-item"><a href="#">Library</a></li>
-		<li class="breadcrumb-item active" aria-current="page">Data</li>
+		<ng-container *ngFor="let breadcrumbItem of breadcrumbItems">
+			<li *ngIf="!breadcrumbItem.isActive" class="breadcrumb-item">
+				<a [routerLink]="breadcrumbItem.route">{{ breadcrumbItem.value }}</a>
+			</li>
+
+			<li *ngIf="breadcrumbItem.isActive" class="breadcrumb-item active">
+				{{ breadcrumbItem.value }}
+			</li>
+		</ng-container>
 	</ol>
 </nav>

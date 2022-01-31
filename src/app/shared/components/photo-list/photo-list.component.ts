@@ -9,4 +9,5 @@ import { Photo } from "../../../core/interfaces/photo";
 })
 export class PhotoListComponent {
 	@Input() photoList!: Photo[];
+	@Input() showAlbumLink = true;
 }

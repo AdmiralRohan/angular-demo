@@ -103,7 +103,7 @@ export class PhotosFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		console.log("Route param changed", queryParams);
+		// console.log("Route param changed", queryParams);
 
 		this._store
 			.select("photos")
@@ -129,7 +129,10 @@ export class PhotosFacadeService {
 	}
 
 	getPhotoById(photoId: number): Observable<Photo | undefined> {
-		// TODO: Add Caching
-		return this._dataService.fetchPhotoById(photoId);
+		return this._store
+			.select("photos")
+			.pipe(
+				map((photos: Photo[]): Photo | undefined => photos.find((photo) => photo.id === photoId)),
+			);
 	}
 }

@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, distinctUntilKeyChanged, pluck } from "rxjs/operators";
+import { Album } from "./interfaces/album";
 import { Photo } from "./interfaces/photo";
 import { Post } from "./interfaces/post";
 import { QueryParams } from "./interfaces/query-params";
 import { SortDirection } from "./interfaces/sort-direction";
+import { User } from "./interfaces/user";
 
 interface State {
 	/**
@@ -26,7 +28,8 @@ interface State {
 	postSortDirection: SortDirection;
 	/**
 	 * List of query params. Storing at a centralized location for easier filtering purposes. \
-	 * We will update the query params and subscribe to param changes. Then filtering will happen from one place.
+	 * We will update the query params and subscribe to param changes. Then filtering will happen from one place. \
+	 * Will reuse for all pages.
 	 */
 	queryParams: QueryParams;
 	/**
@@ -41,6 +44,22 @@ interface State {
 	 * Filtered photos are paginated and used in view
 	 */
 	paginatedPhotos: Photo[];
+	/**
+	 * Holds album list from API
+	 */
+	albums: Album[];
+	/**
+	 * Initially list from API is filtered out by search term (if any)
+	 */
+	filteredAlbums: Album[];
+	/**
+	 * Filtered albums are paginated and used in view
+	 */
+	paginatedAlbums: Album[];
+	/**
+	 * Holds user list from API
+	 */
+	users: User[];
 }
 
 const initialState: State = {
@@ -52,6 +71,10 @@ const initialState: State = {
 	photos: [],
 	filteredPhotos: [],
 	paginatedPhotos: [],
+	albums: [],
+	filteredAlbums: [],
+	paginatedAlbums: [],
+	users: [],
 };
 
 @Injectable({

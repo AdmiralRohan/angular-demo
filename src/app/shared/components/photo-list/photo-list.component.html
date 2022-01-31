@@ -1,16 +1,21 @@
-<main class="container row">
-	<ng-container *ngFor="let photo of photoList">
-		<div class="card col-sm-4 col-lg-3 p-0">
-			<img [src]="photo.url" class="card-img-top" alt="Image" />
+<div class="container row py-5">
+	<div class="col-md-3" *ngFor="let photo of photoList">
+		<div class="card mb-4">
+			<div class="card-body d-flex flex-row justify-content-between p-0">
+				<img [src]="photo.thumbnailUrl" class="card-img" [alt]="photo.title" />
+			</div>
 
-			<div class="card-body">
-				<div class="card-text text-truncate">
-					<a [routerLink]="'/photos/' + photo.id">
+			<div class="card-footer">
+				<div>
+					<a class="d-inline-block text-truncate max-w-100" [routerLink]="'/photos/' + photo.id">
 						{{ photo.title }}
 					</a>
 				</div>
-				<a [routerLink]="'/albums/' + photo.albumId" class="card-link">View Album</a>
+
+				<div *ngIf="showAlbumLink">
+					<a [routerLink]="'/albums/' + photo.albumId"> View Album </a>
+				</div>
 			</div>
 		</div>
-	</ng-container>
-</main>
+	</div>
+</div>

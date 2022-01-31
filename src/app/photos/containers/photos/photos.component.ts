@@ -23,8 +23,6 @@ export class PhotosComponent implements OnInit {
 	constructor(public photosFacade: PhotosFacadeService) {}
 
 	ngOnInit(): void {
-		this.photosFacade.fetchAndSavePhotoList();
-		// this.filteredPhotos$.subscribe(console.log);
 		this.photosFacade.addQueryParamsToRoute();
 		this.photosFacade.listenToQueryParamsChange();
 	}

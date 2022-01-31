@@ -3,11 +3,12 @@ import {
 	Component,
 	EventEmitter,
 	Input,
+	OnDestroy,
 	OnInit,
 	Output,
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { combineLatest, debounceTime, distinctUntilChanged } from "rxjs";
+import { combineLatest, debounceTime, distinctUntilChanged, Subscription } from "rxjs";
 import { SearchFilter } from "../../../core/interfaces/search-filter";
 import { SearchTermChangeEvent } from "../../../core/interfaces/search-term-change-event";
 import { Utils } from "../../../core/utils";
@@ -22,7 +23,7 @@ import { Utils } from "../../../core/utils";
 	styleUrls: ["./search-form.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchFormComponent implements OnInit {
+export class SearchFormComponent implements OnInit, OnDestroy {
 	/**
 	 * If user puts the search string in URL directly
 	 */
@@ -37,8 +38,10 @@ export class SearchFormComponent implements OnInit {
 	searchTerm = new FormControl("");
 	selectedFilter = new FormControl("");
 
+	searchTermChange$!: Subscription;
+
 	ngOnInit(): void {
-		combineLatest({
+		this.searchTermChange$ = combineLatest({
 			searchTerm: this.searchTerm.valueChanges,
 			selectedFilter: this.selectedFilter.valueChanges,
 		})
@@ -53,5 +56,9 @@ export class SearchFormComponent implements OnInit {
 			(filter) => filter.id === this.filterByFromUrl,
 		).length;
 		this.selectedFilter.setValue(isFilterByAvailable ? this.filterByFromUrl : this.filters[0]?.id);
+	}
+
+	ngOnDestroy(): void {
+		this.searchTermChange$.unsubscribe();
 	}
 }

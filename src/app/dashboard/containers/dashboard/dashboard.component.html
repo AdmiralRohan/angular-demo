@@ -1,1 +1,26 @@
-<p>dashboard works!</p>
+<div class="header h-sml text-white py-5">
+	<div class="d-flex flex-column justify-content-center px-5">
+		<small>Welcome to</small>
+		<h2>My App</h2>
+	</div>
+</div>
+
+<div *ngIf="stats$ | async as stats" class="container">
+	<div class="row p-3">
+		<div class="col-6 col-md-4">
+			<app-statistics
+				[totalPosts]="stats.totalPosts"
+				[totalAlbums]="stats.totalAlbums"
+				[totalPhotos]="stats.totalPhotos"
+			></app-statistics>
+		</div>
+
+		<div class="col-6 col-md-4">
+			<app-latest-posts [latestPosts]="stats.latestPosts"></app-latest-posts>
+		</div>
+
+		<div class="col-6 col-md-4">
+			<app-latest-photos [latestPhotos]="stats.latestPhotos"></app-latest-photos>
+		</div>
+	</div>
+</div>

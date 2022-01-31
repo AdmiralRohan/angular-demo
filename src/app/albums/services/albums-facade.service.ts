@@ -4,6 +4,7 @@ import { filter, first, map, Observable } from "rxjs";
 import { DataService } from "../../core/http/data/data.service";
 import { Album } from "../../core/interfaces/album";
 import { PaginationRange } from "../../core/interfaces/pagination-range";
+import { Photo } from "../../core/interfaces/photo";
 import { QueryParams } from "../../core/interfaces/query-params";
 import { Store } from "../../core/store";
 import { Utils } from "../../core/utils";
@@ -36,8 +37,32 @@ export class AlbumsFacadeService {
 	 */
 	fetchAndSaveAlbumList() {
 		this._dataService.fetchAlbumList().subscribe((albumListFromAPI) => {
-			this._store.set("filteredAlbums", albumListFromAPI);
-			this._store.set("albums", albumListFromAPI);
+			// Map photos with respective albums
+			const albumIdToPhotoListMap: { [key: number]: Photo[] } = {};
+
+			this._store
+				.select("photos")
+				.pipe(
+					filter((photos: Photo[]) => photos.length > 0),
+					first(),
+				)
+				.subscribe((photos: Photo[]) => {
+					for (let photo of photos) {
+						if (!albumIdToPhotoListMap[photo.albumId]) {
+							albumIdToPhotoListMap[photo.albumId] = [photo];
+						} else {
+							albumIdToPhotoListMap[photo.albumId].push(photo);
+						}
+					}
+
+					albumListFromAPI.map((album) => {
+						album.photos = albumIdToPhotoListMap[album.id];
+						return album;
+					});
+
+					this._store.set("filteredAlbums", albumListFromAPI);
+					this._store.set("albums", albumListFromAPI);
+				});
 		});
 	}
 
@@ -134,5 +159,13 @@ export class AlbumsFacadeService {
 			.pipe(
 				map((albums: Album[]): Album | undefined => albums.find((album) => album.id === albumId)),
 			);
+	}
+
+	getPhotosByAlbumId(albumId: number): Observable<Photo[]> {
+		return this._store.select("photos").pipe(
+			map((photos: Photo[]) => {
+				return photos.filter((photo) => photo.albumId === albumId);
+			}),
+		);
 	}
 }

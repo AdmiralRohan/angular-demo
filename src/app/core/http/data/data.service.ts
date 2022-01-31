@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { Album } from "../../interfaces/album";
 import { Photo } from "../../interfaces/photo";
@@ -26,10 +26,24 @@ export class DataService {
 	}
 
 	fetchAlbumList(): Observable<Album[]> {
-		return this._http.get<Album[]>(`${this.apiBaseUrl}/albums`);
+		return this._http.get<Album[]>(`${this.apiBaseUrl}/albums`).pipe(
+			map((albums: Album[]) => {
+				return albums.map((album) => {
+					// Set default photo list
+					album.photos = [];
+					return album;
+				});
+			}),
+		);
 	}
 	fetchAlbumById(albumId: number): Observable<Album> {
-		return this._http.get<Album>(`${this.apiBaseUrl}/albums/${albumId}`);
+		return this._http.get<Album>(`${this.apiBaseUrl}/albums/${albumId}`).pipe(
+			map((album: Album) => {
+				// Set default photo list
+				album.photos = [];
+				return album;
+			}),
+		);
 	}
 
 	fetchPhotoList(): Observable<Photo[]> {

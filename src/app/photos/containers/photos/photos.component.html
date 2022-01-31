@@ -1,1 +1,28 @@
-<p>photos works!</p>
+<h2>Photos</h2>
+
+<!-- Search form -->
+<section *ngIf="queryParams$ | async as queryParams" class="my-3">
+	<app-search-form
+		[searchStrFromUrl]="queryParams['search']"
+		[filterByFromUrl]="queryParams['filterBy']"
+		[filters]="filters"
+		(searchTermChange)="searchTermChanged($event)"
+	></app-search-form>
+</section>
+
+<!-- Post list -->
+<section *ngIf="paginatedPhotos$ | async as paginatedPhotos" class="mb-3">
+	<app-photo-list [photoList]="paginatedPhotos"></app-photo-list>
+</section>
+
+<!-- Pagination -->
+<section *ngIf="filteredPhotos$ | async as filteredPhotos">
+	<ng-container *ngIf="queryParams$ | async as queryParams">
+		<app-pagination
+			[list]="filteredPhotos"
+			[currentPage]="queryParams['page']"
+			(currentPageChange)="addPageToQueryParam($event)"
+			(paginationRangeChange)="paginate($event)"
+		></app-pagination>
+	</ng-container>
+</section>

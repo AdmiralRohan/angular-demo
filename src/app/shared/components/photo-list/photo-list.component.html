@@ -1,0 +1,16 @@
+<main class="container row">
+	<ng-container *ngFor="let photo of photoList">
+		<div class="card col-sm-4 col-lg-3 p-0">
+			<img [src]="photo.url" class="card-img-top" alt="Image" />
+
+			<div class="card-body">
+				<div class="card-text text-truncate">
+					<a [routerLink]="'/photos/' + photo.id">
+						{{ photo.title }}
+					</a>
+				</div>
+				<a [routerLink]="'/albums/' + photo.albumId" class="card-link">View Album</a>
+			</div>
+		</div>
+	</ng-container>
+</main>

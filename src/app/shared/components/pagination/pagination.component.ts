@@ -17,10 +17,6 @@ import { PaginationRange } from "../../../core/interfaces/pagination-range";
 })
 export class PaginationComponent implements OnChanges {
 	/**
-	 * aka. paginatedList
-	 */
-	@Input() displayedList: any[] = [];
-	/**
 	 * filteredList (result of search and sort)
 	 */
 	@Input() list: any[] = [];

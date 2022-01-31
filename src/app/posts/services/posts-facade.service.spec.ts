@@ -10,6 +10,7 @@ import { PostsFacadeService } from "./posts-facade.service";
 describe("PostsFacadeService", () => {
 	let service: PostsFacadeService;
 	let router: Router;
+	let route: ActivatedRoute;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
@@ -21,7 +22,8 @@ describe("PostsFacadeService", () => {
 			],
 		});
 		service = TestBed.inject(PostsFacadeService);
-		router = TestBed.inject(Router); // get instance of router
+		router = TestBed.inject(Router);
+		route = TestBed.inject(ActivatedRoute);
 	});
 
 	it("should be created", () => {
@@ -211,6 +213,7 @@ describe("PostsFacadeService", () => {
 	it("verify listenToQueryParamsChange()", () => {
 		const tempStore: { [key: string]: any } = { queryParams: {}, filteredPosts: [] };
 
+		route.queryParams = of({ search: "repellat provident", filterBy: "title" });
 		spyOn(miniStoreMock, "set").and.callFake((key: keyof State, currentValue: any) => {
 			tempStore[key] = currentValue;
 		});
@@ -218,14 +221,16 @@ describe("PostsFacadeService", () => {
 			return (tempStore as any)[key];
 		});
 
-		service.listenToQueryParamsChange();
-		expect(tempStore["filteredPosts"]).toEqual([
+		const expectedResult = [
 			{
 				userId: 1,
 				id: 1,
 				title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
 				body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
 			},
-		]);
+		];
+
+		service.listenToQueryParamsChange();
+		expect(tempStore["filteredPosts"]).toEqual(expectedResult);
 	});
 });

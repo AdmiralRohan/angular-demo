@@ -4,3 +4,11 @@
 .cursor-pointer {
 	cursor: pointer;
 }
+
+a {
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

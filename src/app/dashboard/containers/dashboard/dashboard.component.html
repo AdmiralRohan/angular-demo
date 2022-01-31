@@ -1,1 +1,57 @@
-<p>dashboard works!</p>
+<div class="header h-sml text-white py-5">
+	<div class="d-flex flex-column justify-content-center px-5">
+		<small>Welcome to</small>
+		<h2>My App</h2>
+	</div>
+</div>
+
+<div *ngIf="stats$ | async as stats" class="container">
+	<div class="row p-3">
+		<div class="col-6 col-md-4">
+			<div class="card">
+				<div class="card-header">Statistics</div>
+				<div class="card-body d-flex flex-row justify-content-between flex-wrap">
+					<div>
+						<span class="text-success font-weight-bold">{{ stats.totalPosts }}</span> Posts
+					</div>
+
+					<div>
+						<span class="text-success font-weight-bold">{{ stats.totalAlbums }}</span> Albums
+					</div>
+
+					<div>
+						<span class="text-success font-weight-bold">{{ stats.totalPhotos }}</span> Photos
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-6 col-md-4">
+			<div class="card h-mdl">
+				<div class="card-header">Latest Posts</div>
+				<div class="overflow-auto">
+					<div class="card-body" *ngFor="let posts of stats.latestPosts">
+						<a [routerLink]="'/posts/' + posts.id">
+							<p class="text-truncate">{{ posts.title }}</p></a
+						>
+
+						<p class="text-truncate">{{ posts.body }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-6 col-md-4">
+			<div class="card h-mdl">
+				<div class="card-header">Recent Photos</div>
+				<div class="overflow-auto d-flex flex-row flex-wrap">
+					<div *ngFor="let photos of stats.latestPhotos" class="card-body justify-content-around">
+						<img [src]="photos.thumbnailUrl" class="photos" />
+
+						<p class="text-truncate">{{ photos.title }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

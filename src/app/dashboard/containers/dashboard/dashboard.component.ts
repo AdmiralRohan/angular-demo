@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { DashboardFacadeService } from "../../services/dashboard-facade.service";
 
 @Component({
 	selector: "app-dashboard",
@@ -6,5 +7,7 @@ import { Component } from "@angular/core";
 	styleUrls: ["./dashboard.component.scss"],
 })
 export class DashboardComponent {
-	constructor() {}
+	stats$ = this.dashboardFacade.generateStats();
+
+	constructor(public dashboardFacade: DashboardFacadeService) {}
 }

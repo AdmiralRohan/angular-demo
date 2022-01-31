@@ -160,12 +160,4 @@ export class AlbumsFacadeService {
 				map((albums: Album[]): Album | undefined => albums.find((album) => album.id === albumId)),
 			);
 	}
-
-	getPhotosByAlbumId(albumId: number): Observable<Photo[]> {
-		return this._store.select("photos").pipe(
-			map((photos: Photo[]) => {
-				return photos.filter((photo) => photo.albumId === albumId);
-			}),
-		);
-	}
 }

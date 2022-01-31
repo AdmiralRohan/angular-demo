@@ -13,7 +13,8 @@ import { SearchTermChangeEvent } from "../../../core/interfaces/search-term-chan
 import { Utils } from "../../../core/utils";
 
 /**
- * Search form along with dynamic filters. Used in all pages.
+ * Search form along with dynamic filters. Used in all pages. \
+ * Can be reused for every module.
  */
 @Component({
 	selector: "app-search-form",

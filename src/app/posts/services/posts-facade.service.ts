@@ -7,6 +7,7 @@ import { Post } from "../../core/interfaces/post";
 import { QueryParams } from "../../core/interfaces/query-params";
 import { SortDirection } from "../../core/interfaces/sort-direction";
 import { Store } from "../../core/store";
+import { Utils } from "../../core/utils";
 
 /**
  * Interacting with http and store layer
@@ -113,10 +114,6 @@ export class PostsFacadeService {
 	private _filterList(queryParams: QueryParams) {
 		console.log("Route param changed", queryParams);
 
-		const isStringMatching = (targetStr: string, searchTerm: string) => {
-			return targetStr.toString().toLowerCase().includes(searchTerm.toLowerCase());
-		};
-
 		this._store
 			.select("posts")
 			.pipe(
@@ -126,7 +123,10 @@ export class PostsFacadeService {
 					return queryParams.search
 						? posts.filter((post) => {
 								// TODO: Hack to fix `No index signature with a parameter of type 'string' was found on type 'Post'` (ts7053)
-								return isStringMatching((post as any)[queryParams.filterBy], queryParams.search);
+								return Utils.isStringMatching(
+									(post as any)[queryParams.filterBy],
+									queryParams.search,
+								);
 						  })
 						: posts;
 				}),

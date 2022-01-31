@@ -1,0 +1,12 @@
+<div class="card h-mdl">
+	<div class="card-header">Latest Posts</div>
+	<div class="overflow-auto">
+		<div class="card-body" *ngFor="let posts of latestPosts">
+			<a [routerLink]="'/posts/' + posts.id">
+				<p class="text-truncate">{{ posts.title }}</p></a
+			>
+
+			<p class="text-truncate">{{ posts.body }}</p>
+		</div>
+	</div>
+</div>

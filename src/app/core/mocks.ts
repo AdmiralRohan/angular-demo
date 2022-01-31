@@ -6,6 +6,11 @@ import Photos from "./mocks/photos.json";
 import Posts from "./mocks/posts.json";
 import Users from "./mocks/users.json";
 
+/**
+ * @deprecated
+ * Not very useful till now \
+ * Initially thought real data can be used, so saved mocks in files
+ */
 const mockState: State = {
 	posts: Posts,
 	filteredPosts: [],
@@ -93,8 +98,31 @@ const miniMockState: State = {
 			thumbnailUrl: "https://via.placeholder.com/150/24f355",
 		},
 	],
-	filteredPhotos: [],
-	paginatedPhotos: [],
+	filteredPhotos: [
+		{
+			albumId: 1,
+			id: 1,
+			title: "accusamus beatae ad facilis cum similique qui sunt",
+			url: "https://via.placeholder.com/600/92c952",
+			thumbnailUrl: "https://via.placeholder.com/150/92c952",
+		},
+	],
+	paginatedPhotos: [
+		{
+			albumId: 1,
+			id: 1,
+			title: "accusamus beatae ad facilis cum similique qui sunt",
+			url: "https://via.placeholder.com/600/92c952",
+			thumbnailUrl: "https://via.placeholder.com/150/92c952",
+		},
+		{
+			albumId: 1,
+			id: 2,
+			title: "reprehenderit est deserunt velit ipsam",
+			url: "https://via.placeholder.com/600/771796",
+			thumbnailUrl: "https://via.placeholder.com/150/771796",
+		},
+	],
 	albums: [
 		{
 			userId: 1,
@@ -162,9 +190,9 @@ const miniMockState: State = {
 
 export const dataServiceMock = {
 	fetchPostList: () => of(Posts),
-	fetchAlbumsList: () => of(Albums),
-	fetchPhotosList: () => of(Photos),
-	fetchUsersList: () => of(Users),
+	fetchAlbumList: () => of(Albums),
+	fetchPhotoList: () => of(Photos),
+	fetchUserList: () => of(Users),
 };
 
 export const storeMock = {

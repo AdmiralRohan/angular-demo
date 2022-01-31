@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { map, Observable, tap } from "rxjs";
+import { map, Observable } from "rxjs";
 import { DataService } from "../../core/http/data/data.service";
 import { Album } from "../../core/interfaces/album";
 import { Post } from "../../core/interfaces/post";
@@ -26,7 +26,6 @@ export class UsersFacadeService {
 			map((posts: Post[]) => {
 				return posts.filter((post) => post.userId === userId);
 			}),
-			tap(console.log),
 		);
 	}
 	getAlbumsByUserId(userId: number): Observable<Album[]> {
@@ -34,7 +33,6 @@ export class UsersFacadeService {
 			map((albums: Album[]) => {
 				return albums.filter((album) => album.userId === userId);
 			}),
-			tap(console.log),
 		);
 	}
 

@@ -28,7 +28,8 @@ interface State {
 	postSortDirection: SortDirection;
 	/**
 	 * List of query params. Storing at a centralized location for easier filtering purposes. \
-	 * We will update the query params and subscribe to param changes. Then filtering will happen from one place.
+	 * We will update the query params and subscribe to param changes. Then filtering will happen from one place. \
+	 * Will reuse for all pages.
 	 */
 	queryParams: QueryParams;
 	/**

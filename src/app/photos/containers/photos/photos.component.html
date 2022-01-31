@@ -10,7 +10,7 @@
 	></app-search-form>
 </section>
 
-<!-- Post list -->
+<!-- Photo list -->
 <section *ngIf="paginatedPhotos$ | async as paginatedPhotos" class="mb-3">
 	<app-photo-list [photoList]="paginatedPhotos"></app-photo-list>
 </section>

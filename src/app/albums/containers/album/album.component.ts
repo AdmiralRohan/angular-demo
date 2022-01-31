@@ -16,10 +16,11 @@ export class AlbumComponent implements OnInit {
 	constructor(public albumsFacade: AlbumsFacadeService, private _route: ActivatedRoute) {}
 
 	ngOnInit() {
+		// Is reused, so not unsubscribing
 		this._route.paramMap.subscribe((params) => {
 			this.albumId = +(params.get("id") || 0);
 
-			// if (this.albumId) this.album$ = this.albumsFacade.getPostById(this.albumId);
+			if (this.albumId) this.album$ = this.albumsFacade.getAlbumById(this.albumId);
 		});
 	}
 }

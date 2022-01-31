@@ -1,3 +1,4 @@
+import { convertToParamMap } from "@angular/router";
 import { Observable, of } from "rxjs";
 import { State } from "./interfaces/state";
 import Albums from "./mocks/albums.json";
@@ -45,10 +46,30 @@ const miniMockState: State = {
 			body: "et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut",
 		},
 	],
-	filteredPosts: [],
-	paginatedPosts: [],
-	postSortDirection: "none",
-	queryParams: { search: "", filterBy: "title", page: 1 },
+	filteredPosts: [
+		{
+			userId: 1,
+			id: 1,
+			title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+			body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+		},
+	],
+	paginatedPosts: [
+		{
+			userId: 1,
+			id: 1,
+			title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+			body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+		},
+		{
+			userId: 1,
+			id: 2,
+			title: "qui est esse",
+			body: "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla",
+		},
+	],
+	postSortDirection: "desc",
+	queryParams: { search: "sunt", filterBy: "title", page: 1 },
 	photos: [
 		{
 			albumId: 1,
@@ -147,12 +168,42 @@ export const dataServiceMock = {
 };
 
 export const storeMock = {
-	select: (key: string): Observable<any> => {
+	select: (key: keyof State): Observable<any> => {
 		return of((mockState as any)[key]);
 	},
 };
 export const miniStoreMock = {
-	select: (key: string): Observable<any> => {
+	select: (key: keyof State): Observable<any> => {
 		return of((miniMockState as any)[key]);
 	},
+	getLatestValue: (key: keyof State): Observable<any> => {
+		return (miniMockState as any)[key];
+	},
+	set: (key: keyof State, currentValue: any) => {},
+};
+
+export const activatedRouteMock = {
+	snapshot: {
+		paramMap: convertToParamMap({
+			search: "suit",
+			filterBy: "title",
+		}),
+	},
+	queryParamMap: of(
+		convertToParamMap({
+			search: "suit",
+			filterBy: "title",
+		}),
+	),
+	queryParams: of({
+		search: "repellat provident",
+		filterBy: "title",
+	}),
+};
+
+export const routerMock = jasmine.createSpyObj("Router", ["navigate"]);
+
+export const postsFacadeMock = {
+	addQueryParamsToRoute: () => {},
+	listenToQueryParamsChange: () => {},
 };

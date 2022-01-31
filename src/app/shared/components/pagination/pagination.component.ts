@@ -27,7 +27,7 @@ export class PaginationComponent implements OnChanges {
 	@Output() currentPageChange = new EventEmitter<number>();
 
 	@Input() currentPage = 1;
-	perPage = 5;
+	@Input() perPage = 5;
 	isFirstLoad = true;
 
 	ngOnChanges(changes: SimpleChanges): void {

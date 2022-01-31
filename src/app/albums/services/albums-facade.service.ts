@@ -103,7 +103,7 @@ export class AlbumsFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		console.log("Route param changed", queryParams);
+		// console.log("Route param changed", queryParams);
 
 		this._store
 			.select("albums")
@@ -129,7 +129,10 @@ export class AlbumsFacadeService {
 	}
 
 	getAlbumById(albumId: number): Observable<Album | undefined> {
-		// TODO: Add Caching
-		return this._dataService.fetchAlbumById(albumId);
+		return this._store
+			.select("albums")
+			.pipe(
+				map((albums: Album[]): Album | undefined => albums.find((album) => album.id === albumId)),
+			);
 	}
 }

@@ -23,8 +23,6 @@ export class AlbumsComponent implements OnInit {
 	constructor(public albumsFacade: AlbumsFacadeService) {}
 
 	ngOnInit(): void {
-		this.albumsFacade.fetchAndSaveAlbumList();
-		this.filteredAlbums$.subscribe(console.log);
 		this.albumsFacade.addQueryParamsToRoute();
 		this.albumsFacade.listenToQueryParamsChange();
 	}

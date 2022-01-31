@@ -6,6 +6,7 @@ import { Photo } from "./interfaces/photo";
 import { Post } from "./interfaces/post";
 import { QueryParams } from "./interfaces/query-params";
 import { SortDirection } from "./interfaces/sort-direction";
+import { User } from "./interfaces/user";
 
 interface State {
 	/**
@@ -54,6 +55,10 @@ interface State {
 	 * Filtered albums are paginated and used in view
 	 */
 	paginatedAlbums: Album[];
+	/**
+	 * Holds user list from API
+	 */
+	users: User[];
 }
 
 const initialState: State = {
@@ -68,6 +73,7 @@ const initialState: State = {
 	albums: [],
 	filteredAlbums: [],
 	paginatedAlbums: [],
+	users: [],
 };
 
 @Injectable({

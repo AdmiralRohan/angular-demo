@@ -28,7 +28,6 @@ export class PostsComponent implements OnInit {
 	constructor(public postsFacade: PostsFacadeService) {}
 
 	ngOnInit(): void {
-		this.postsFacade.fetchAndSavePostList();
 		this.postsFacade.addQueryParamsToRoute();
 		this.postsFacade.listenToQueryParamsChange();
 	}

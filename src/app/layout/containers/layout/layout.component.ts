@@ -1,7 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
+import { AlbumsFacadeService } from "../../../albums/services/albums-facade.service";
 import { BreadcrumbItem } from "../../../core/interfaces/breadcrumb-item";
 import { Utils } from "../../../core/utils";
+import { PhotosFacadeService } from "../../../photos/services/photos-facade.service";
+import { PostsFacadeService } from "../../../posts/services/posts-facade.service";
+import { UsersFacadeService } from "../../../users/services/users-facade.service";
 
 @Component({
 	selector: "app-layout",
@@ -12,10 +16,22 @@ export class LayoutComponent implements OnInit {
 	// Default value
 	breadcrumbItems: BreadcrumbItem[] = Utils.dashboardBreadcrumbItems;
 
-	constructor(private _router: Router) {}
+	constructor(
+		private _router: Router,
+		public postsFacade: PostsFacadeService,
+		public albumsFacade: AlbumsFacadeService,
+		public photosFacade: PhotosFacadeService,
+		public usersFacade: UsersFacadeService,
+	) {}
 
 	ngOnInit(): void {
 		this._checkCurrentRoute();
+
+		// For caching, as this is parent of all pages
+		this.postsFacade.fetchAndSavePostList();
+		this.albumsFacade.fetchAndSaveAlbumList();
+		this.photosFacade.fetchAndSavePhotoList();
+		this.usersFacade.fetchAndSaveUserList();
 	}
 
 	/**

@@ -1,0 +1,45 @@
+<main class="container row">
+	<ng-container *ngFor="let album of albumList">
+		<div class="card text-left col-3 my-2 p-0">
+			<div class="card-header">
+				<a [routerLink]="'/albums/' + album.id">{{ album.title }}</a>
+			</div>
+			<div class="card-body row">
+				<!-- <div>
+					<img [src]="'https://via.placeholder.com/600/92c952'" class="card-img-top" alt="Image" />
+				</div>
+				<div>
+					<img [src]="'https://via.placeholder.com/600/92c952'" class="card-img-top" alt="Image" />
+				</div>
+				<div>
+					<img [src]="'https://via.placeholder.com/600/92c952'" class="card-img-top" alt="Image" />
+				</div>
+				<div>
+					<img [src]="'https://via.placeholder.com/600/92c952'" class="card-img-top" alt="Image" />
+				</div> -->
+				<!-- <h5 class="card-title">Special title treatment</h5>
+				<p class="card-text">
+					With supporting text below as a natural lead-in to additional content.
+				</p>
+				<a href="#" class="btn btn-primary">Go somewhere</a> -->
+			</div>
+			<div class="card-footer text-muted">
+				By <a [routerLink]="'/users/' + album.userId">User {{ album.userId }}</a>
+			</div>
+		</div>
+
+		<!-- {{ album | json }} -->
+		<!-- <div class="card col-sm-4 col-lg-3 p-0">
+			<img [src]="album.url" class="card-img-top" alt="Image" />
+
+			<div class="card-body">
+				<div class="card-text text-truncate">
+					<a [routerLink]="'/photos/' + photo.id">
+						{{ photo.title }}
+					</a>
+				</div>
+				<a [routerLink]="'/albums/' + photo.albumId" class="card-link">View Album</a>
+			</div>
+		</div> -->
+	</ng-container>
+</main>

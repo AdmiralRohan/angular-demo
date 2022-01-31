@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, distinctUntilKeyChanged, pluck } from "rxjs/operators";
+import { Album } from "./interfaces/album";
 import { Photo } from "./interfaces/photo";
 import { Post } from "./interfaces/post";
 import { QueryParams } from "./interfaces/query-params";
@@ -41,6 +42,18 @@ interface State {
 	 * Filtered photos are paginated and used in view
 	 */
 	paginatedPhotos: Photo[];
+	/**
+	 * Holds album list from API
+	 */
+	albums: Album[];
+	/**
+	 * Initially list from API is filtered out by search term (if any)
+	 */
+	filteredAlbums: Album[];
+	/**
+	 * Filtered albums are paginated and used in view
+	 */
+	paginatedAlbums: Album[];
 }
 
 const initialState: State = {
@@ -52,6 +65,9 @@ const initialState: State = {
 	photos: [],
 	filteredPhotos: [],
 	paginatedPhotos: [],
+	albums: [],
+	filteredAlbums: [],
+	paginatedAlbums: [],
 };
 
 @Injectable({

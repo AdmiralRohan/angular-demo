@@ -1,1 +1,28 @@
-<p>albums works!</p>
+<h2>Albums</h2>
+
+<!-- Search form -->
+<section *ngIf="queryParams$ | async as queryParams" class="my-3">
+	<app-search-form
+		[searchStrFromUrl]="queryParams['search']"
+		[filterByFromUrl]="queryParams['filterBy']"
+		[filters]="filters"
+		(searchTermChange)="searchTermChanged($event)"
+	></app-search-form>
+</section>
+
+<!-- Album list -->
+<section *ngIf="paginatedAlbums$ | async as paginatedAlbums" class="mb-3">
+	<app-album-list [albumList]="paginatedAlbums"></app-album-list>
+</section>
+
+<!-- Pagination -->
+<section *ngIf="filteredAlbums$ | async as filteredAlbums">
+	<ng-container *ngIf="queryParams$ | async as queryParams">
+		<app-pagination
+			[list]="filteredAlbums"
+			[currentPage]="queryParams['page']"
+			(currentPageChange)="addPageToQueryParam($event)"
+			(paginationRangeChange)="paginate($event)"
+		></app-pagination>
+	</ng-container>
+</section>

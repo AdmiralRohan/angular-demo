@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
+import { ReactiveFormsModule } from "@angular/forms";
 import { SearchFormComponent } from "./search-form.component";
 
 describe("SearchFormComponent", () => {
@@ -9,6 +9,7 @@ describe("SearchFormComponent", () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			declarations: [SearchFormComponent],
+			imports: [ReactiveFormsModule],
 		}).compileComponents();
 	});
 

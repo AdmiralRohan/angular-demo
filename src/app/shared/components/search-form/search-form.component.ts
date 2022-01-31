@@ -32,7 +32,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 	 * If user puts the filterBy string in URL directly
 	 */
 	@Input() filterByFromUrl = "";
-	@Input() filters!: SearchFilter[];
+	@Input() filters: SearchFilter[] = [];
 	@Output() searchTermChange = new EventEmitter<SearchTermChangeEvent>();
 
 	searchTerm = new FormControl("");

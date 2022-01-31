@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
+import { RouterTestingModule } from "@angular/router/testing";
 import { LeftNavComponent } from "./left-nav.component";
 
 describe("LeftNavComponent", () => {
@@ -9,6 +9,7 @@ describe("LeftNavComponent", () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			declarations: [LeftNavComponent],
+			imports: [RouterTestingModule],
 		}).compileComponents();
 	});
 

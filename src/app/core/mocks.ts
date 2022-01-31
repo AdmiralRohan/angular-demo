@@ -278,6 +278,11 @@ export const activatedRouteMock = {
 			filterBy: "title",
 		}),
 	},
+	paramMap: of(
+		convertToParamMap({
+			id: 1,
+		}),
+	),
 	queryParamMap: of(
 		convertToParamMap({
 			search: "suit",
@@ -290,9 +295,29 @@ export const activatedRouteMock = {
 	}),
 };
 
-export const routerMock = jasmine.createSpyObj("Router", ["navigate"]);
+export const routerMock = jasmine.createSpyObj("Router", ["navigate", "events"]);
 
+export const dashboardFacadeMock = {
+	addQueryParamsToRoute: () => {},
+	listenToQueryParamsChange: () => {},
+};
 export const postsFacadeMock = {
 	addQueryParamsToRoute: () => {},
 	listenToQueryParamsChange: () => {},
+	fetchAndSavePostList: () => {},
+};
+export const albumsFacadeMock = {
+	addQueryParamsToRoute: () => {},
+	listenToQueryParamsChange: () => {},
+	fetchAndSaveAlbumList: () => {},
+};
+export const photosFacadeMock = {
+	addQueryParamsToRoute: () => {},
+	listenToQueryParamsChange: () => {},
+	fetchAndSavePhotoList: () => {},
+};
+export const usersFacadeMock = {
+	addQueryParamsToRoute: () => {},
+	listenToQueryParamsChange: () => {},
+	fetchAndSaveUserList: () => {},
 };

@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { map, Observable } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import { DataService } from "../../core/http/data/data.service";
+import { Album } from "../../core/interfaces/album";
+import { Post } from "../../core/interfaces/post";
 import { User } from "../../core/interfaces/user";
 import { Store } from "../../core/store";
 
@@ -9,12 +10,7 @@ import { Store } from "../../core/store";
 	providedIn: "root",
 })
 export class UsersFacadeService {
-	constructor(
-		private _dataService: DataService,
-		private _store: Store,
-		private _router: Router,
-		private _route: ActivatedRoute,
-	) {}
+	constructor(private _dataService: DataService, private _store: Store) {}
 
 	/**
 	 * Fetch and save user list in store
@@ -23,6 +19,23 @@ export class UsersFacadeService {
 		this._dataService.fetchUserList().subscribe((userListFromAPI) => {
 			this._store.set("users", userListFromAPI);
 		});
+	}
+
+	getPostsByUserId(userId: number): Observable<Post[]> {
+		return this._store.select("posts").pipe(
+			map((posts: Post[]) => {
+				return posts.filter((post) => post.userId === userId);
+			}),
+			tap(console.log),
+		);
+	}
+	getAlbumsByUserId(userId: number): Observable<Album[]> {
+		return this._store.select("albums").pipe(
+			map((albums: Album[]) => {
+				return albums.filter((album) => album.userId === userId);
+			}),
+			tap(console.log),
+		);
 	}
 
 	getUserById(userId: number): Observable<User | undefined> {

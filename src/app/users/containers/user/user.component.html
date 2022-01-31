@@ -1,1 +1,25 @@
-<p>user works!</p>
+<div *ngIf="user$ | async as user" class="bg-info text-white p-5">
+	<div class="container">
+		<h1>
+			<p>{{ user.name }}</p>
+		</h1>
+		<p>
+			@{{ user.username }} &#x2014; {{ user.email }} &#x2014; {{ user.website }} &#x2014;
+			{{ user.company.name }} &#x2014; {{ user.address.city }}
+		</p>
+	</div>
+</div>
+
+<div class="container" *ngIf="user$ | async">
+	<div class="mt-3 mb-5">
+		<div class="card-group row d-flex justify-content-around">
+			<div *ngIf="albumsByUser$ | async as albumsByUser" class="col-md-6">
+				<app-user-albums [albumsByUser]="(albumsByUser$ | async) || []"></app-user-albums>
+			</div>
+
+			<div *ngIf="postsByUser$ | async as postsByUser" class="col-md-6">
+				<app-user-posts [postsByUser]="(postsByUser$ | async) || []"></app-user-posts>
+			</div>
+		</div>
+	</div>
+</div>

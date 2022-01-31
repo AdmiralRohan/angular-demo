@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap";
 
+// Used in sorting button in post list table
 .cursor-pointer {
 	cursor: pointer;
 }
@@ -11,4 +12,9 @@ a {
 	&:hover {
 		text-decoration: underline;
 	}
+}
+
+// Used in user page, for fixed height
+.h-mid {
+	height: 400px;
 }

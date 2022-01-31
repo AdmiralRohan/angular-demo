@@ -5,6 +5,7 @@ import { environment } from "../../../../environments/environment";
 import { Album } from "../../interfaces/album";
 import { Photo } from "../../interfaces/photo";
 import { Post } from "../../interfaces/post";
+import { User } from "../../interfaces/user";
 
 /**
  * All http calls
@@ -38,11 +39,10 @@ export class DataService {
 		return this._http.get<Photo>(`${this.apiBaseUrl}/photos/${photoId}`);
 	}
 
-	// Won't save all user details so any
-	fetchUserList(): Observable<any[]> {
-		return this._http.get<any[]>(`${this.apiBaseUrl}/users`);
+	fetchUserList(): Observable<User[]> {
+		return this._http.get<User[]>(`${this.apiBaseUrl}/users`);
 	}
-	fetchUserById(userId: number): Observable<any[]> {
-		return this._http.get<any[]>(`${this.apiBaseUrl}/users/${userId}`);
+	fetchUserById(userId: number): Observable<any> {
+		return this._http.get<User>(`${this.apiBaseUrl}/users/${userId}`);
 	}
 }

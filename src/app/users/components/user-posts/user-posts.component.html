@@ -1,7 +1,7 @@
 <div class="card h-mid">
 	<div class="card-header">Posts</div>
 	<div class="overflow-auto">
-		<div class="card-body" *ngFor="let posts of postsByUser">
+		<div *ngFor="let posts of postsByUser" class="card-body">
 			<a [routerLink]="'/posts/' + posts.id"> {{ posts.title }}</a>
 			<p class="text-truncate">{{ posts.body }}</p>
 		</div>

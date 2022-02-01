@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
+import { Observable, of } from "rxjs";
 import { AlbumsFacadeService } from "../../../albums/services/albums-facade.service";
 import { BreadcrumbItem } from "../../../core/interfaces/breadcrumb-item";
 import { Utils } from "../../../core/utils";
@@ -15,6 +16,7 @@ import { UsersFacadeService } from "../../../users/services/users-facade.service
 export class LayoutComponent implements OnInit {
 	// Default value
 	breadcrumbItems: BreadcrumbItem[] = Utils.dashboardBreadcrumbItems;
+	showHeader$: Observable<boolean> = of(true);
 
 	constructor(
 		private _router: Router,

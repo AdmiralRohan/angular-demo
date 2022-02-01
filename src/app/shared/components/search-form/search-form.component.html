@@ -1,6 +1,6 @@
 <div class="row g-2">
 	<!-- Search Term -->
-	<div class="col-3">
+	<div class="col-6 col-md-3">
 		<input
 			type="text"
 			class="form-control"
@@ -11,7 +11,7 @@
 	</div>
 
 	<!-- Filter -->
-	<div class="col-3">
+	<div class="col-6 col-md-3">
 		<select class="form-select" aria-label="Search filters" [formControl]="selectedFilter">
 			<!-- <option value="">Select filter</option> -->
 			<option *ngFor="let filter of filters" [value]="filter.id">{{ filter.value }}</option>

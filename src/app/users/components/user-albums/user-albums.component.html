@@ -2,7 +2,7 @@
 	<div class="card-header">Albums</div>
 
 	<div class="overflow-auto">
-		<div class="card-body overflow-auto" *ngFor="let albums of albumsByUser">
+		<div *ngFor="let albums of albumsByUser" class="card-body overflow-auto">
 			<a [routerLink]="'/albums/' + albums.id"> {{ albums.title }}</a>
 		</div>
 	</div>

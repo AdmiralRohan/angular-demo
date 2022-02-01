@@ -1,23 +1,20 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { filter, first, map, Observable } from "rxjs";
-import { DataService } from "../../core/http/data/data.service";
 import { PaginationRange } from "../../core/interfaces/pagination-range";
 import { Photo } from "../../core/interfaces/photo";
 import { QueryParams } from "../../core/interfaces/query-params";
 import { Store } from "../../core/store";
 import { Utils } from "../../core/utils";
 
+/**
+ * For photos by album related communication
+ */
 @Injectable({
 	providedIn: "root",
 })
 export class AlbumFacadeService {
-	constructor(
-		private _dataService: DataService,
-		private _store: Store,
-		private _router: Router,
-		private _route: ActivatedRoute,
-	) {}
+	constructor(private _store: Store, private _router: Router, private _route: ActivatedRoute) {}
 
 	get filteredPhotosByAlbum$(): Observable<Photo[]> {
 		return this._store.select("filteredPhotosByAlbum");

@@ -127,8 +127,6 @@ export class PhotosFacadeService {
 				}),
 			)
 			.subscribe((filteredPhotos) => {
-				console.log(filteredPhotos);
-
 				this._store.set("filteredPhotos", [...filteredPhotos]);
 			});
 	}

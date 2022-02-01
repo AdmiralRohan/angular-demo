@@ -12,10 +12,14 @@ const initialState: State = {
 	photos: [],
 	filteredPhotos: [],
 	paginatedPhotos: [],
+	photosByAlbum: [],
+	filteredPhotosByAlbum: [],
+	paginatedPhotosByAlbum: [],
 	albums: [],
 	filteredAlbums: [],
 	paginatedAlbums: [],
 	users: [],
+	isSpinnerVisible: false,
 };
 
 @Injectable({

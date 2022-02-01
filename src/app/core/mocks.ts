@@ -24,6 +24,10 @@ export const mockState: State = {
 	filteredAlbums: [],
 	paginatedAlbums: [],
 	users: Users,
+	photosByAlbum: [],
+	filteredPhotosByAlbum: [],
+	paginatedPhotosByAlbum: [],
+	isSpinnerVisible: false,
 };
 
 /**
@@ -243,6 +247,76 @@ export const miniMockState: State = {
 			},
 		},
 	],
+	photosByAlbum: [
+		{
+			albumId: 1,
+			id: 1,
+			title: "accusamus beatae ad facilis cum similique qui sunt",
+			url: "https://via.placeholder.com/600/92c952",
+			thumbnailUrl: "https://via.placeholder.com/150/92c952",
+		},
+		{
+			albumId: 1,
+			id: 2,
+			title: "reprehenderit est deserunt velit ipsam",
+			url: "https://via.placeholder.com/600/771796",
+			thumbnailUrl: "https://via.placeholder.com/150/771796",
+		},
+		{
+			albumId: 1,
+			id: 3,
+			title: "officia porro iure quia iusto qui ipsa ut modi",
+			url: "https://via.placeholder.com/600/24f355",
+			thumbnailUrl: "https://via.placeholder.com/150/24f355",
+		},
+	],
+	filteredPhotosByAlbum: [
+		{
+			albumId: 1,
+			id: 1,
+			title: "accusamus beatae ad facilis cum similique qui sunt",
+			url: "https://via.placeholder.com/600/92c952",
+			thumbnailUrl: "https://via.placeholder.com/150/92c952",
+		},
+		{
+			albumId: 1,
+			id: 2,
+			title: "reprehenderit est deserunt velit ipsam",
+			url: "https://via.placeholder.com/600/771796",
+			thumbnailUrl: "https://via.placeholder.com/150/771796",
+		},
+		{
+			albumId: 1,
+			id: 3,
+			title: "officia porro iure quia iusto qui ipsa ut modi",
+			url: "https://via.placeholder.com/600/24f355",
+			thumbnailUrl: "https://via.placeholder.com/150/24f355",
+		},
+	],
+	paginatedPhotosByAlbum: [
+		{
+			albumId: 1,
+			id: 1,
+			title: "accusamus beatae ad facilis cum similique qui sunt",
+			url: "https://via.placeholder.com/600/92c952",
+			thumbnailUrl: "https://via.placeholder.com/150/92c952",
+		},
+		{
+			albumId: 1,
+			id: 2,
+			title: "reprehenderit est deserunt velit ipsam",
+			url: "https://via.placeholder.com/600/771796",
+			thumbnailUrl: "https://via.placeholder.com/150/771796",
+		},
+		{
+			albumId: 1,
+			id: 3,
+			title: "officia porro iure quia iusto qui ipsa ut modi",
+			url: "https://via.placeholder.com/600/24f355",
+			thumbnailUrl: "https://via.placeholder.com/150/24f355",
+		},
+	],
+	isSpinnerVisible: false,
 };
 
 export const dataServiceMock = {
@@ -264,6 +338,7 @@ export const miniStoreMock = {
 	getLatestValue: (key: keyof State): Observable<any> => {
 		return (miniMockState as any)[key];
 	},
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	set: (key: keyof State, currentValue: any) => {},
 };
 
@@ -303,6 +378,11 @@ export const postsFacadeMock = {
 	fetchAndSavePostList: () => {},
 };
 export const albumsFacadeMock = {
+	addQueryParamsToRoute: () => {},
+	listenToQueryParamsChange: () => {},
+	fetchAndSaveAlbumList: () => {},
+};
+export const albumFacadeMock = {
 	addQueryParamsToRoute: () => {},
 	listenToQueryParamsChange: () => {},
 	fetchAndSaveAlbumList: () => {},

@@ -5,9 +5,9 @@
 	</div>
 </div>
 
-<div *ngIf="stats$ | async as stats" class="container">
+<div *ngIf="stats$ | async as stats">
 	<div class="row p-3">
-		<div class="col-6 col-md-4">
+		<div class="col-12 col-md-4 mb-3">
 			<app-statistics
 				[totalPosts]="stats.totalPosts"
 				[totalAlbums]="stats.totalAlbums"
@@ -15,11 +15,11 @@
 			></app-statistics>
 		</div>
 
-		<div class="col-6 col-md-4">
+		<div class="col-12 col-md-4 mb-3">
 			<app-latest-posts [latestPosts]="stats.latestPosts"></app-latest-posts>
 		</div>
 
-		<div class="col-6 col-md-4">
+		<div class="col-12 col-md-4">
 			<app-latest-photos [latestPhotos]="stats.latestPhotos"></app-latest-photos>
 		</div>
 	</div>

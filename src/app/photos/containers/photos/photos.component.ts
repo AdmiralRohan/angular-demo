@@ -19,8 +19,8 @@ export class PhotosComponent implements OnInit {
 	perPage = environment.perPage.photos;
 
 	readonly filters: SearchFilter[] = [
-		{ id: "albumId", value: "Album" },
 		{ id: "title", value: "Title" },
+		{ id: "albumId", value: "Album" },
 	];
 
 	constructor(public photosFacade: PhotosFacadeService) {}

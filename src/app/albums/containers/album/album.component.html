@@ -1,33 +1,36 @@
-<div *ngIf="album$ | async as album">
-	<h2>Photos</h2>
-	<p>
-		by <a [routerLink]="'/users/' + album.userId">User {{ album.userId }}</a>
-	</p>
-</div>
+<ng-container *ngIf="album$ | async as album">
+	<div>
+		<h2>Photos</h2>
+		<p>
+			by <a [routerLink]="'/users/' + album.userId">User {{ album.userId }}</a>
+		</p>
+	</div>
 
-<!-- Search form -->
-<section *ngIf="queryParams$ | async as queryParams" class="my-3">
-	<app-search-form
-		[searchStrFromUrl]="queryParams['search']"
-		[filterByFromUrl]="queryParams['filterBy']"
-		[filters]="filters"
-		(searchTermChange)="searchTermChanged($event)"
-	></app-search-form>
-</section>
+	<!-- Search form -->
+	<section *ngIf="queryParams$ | async as queryParams" class="my-3">
+		<app-search-form
+			[searchStrFromUrl]="queryParams['search']"
+			[filterByFromUrl]="queryParams['filterBy']"
+			[filters]="filters"
+			(searchTermChange)="searchTermChanged($event)"
+		></app-search-form>
+	</section>
 
-<!-- Photo list -->
-<section *ngIf="album$ | async as album" class="mb-3">
-	<app-photo-list [photoList]="album.photos" [showAlbumLink]="false"></app-photo-list>
-</section>
+	<!-- Photo list -->
+	<section *ngIf="paginatedPhotosByAlbum$ | async as paginatedPhotos" class="mb-3">
+		<app-photo-list [photoList]="paginatedPhotos" [showAlbumLink]="false"></app-photo-list>
+	</section>
 
-<!-- Pagination -->
-<!-- <section *ngIf="filteredPhotos$ | async as filteredPhotos">
-	<ng-container *ngIf="queryParams$ | async as queryParams">
-		<app-pagination
-			[list]="filteredPhotos"
-			[currentPage]="queryParams['page']"
-			(currentPageChange)="addPageToQueryParam($event)"
-			(paginationRangeChange)="paginate($event)"
-		></app-pagination>
-	</ng-container>
-</section> -->
+	<!-- Pagination -->
+	<section *ngIf="filteredPhotosByAlbum$ | async as filteredPhotos">
+		<ng-container *ngIf="queryParams$ | async as queryParams">
+			<app-pagination
+				[list]="filteredPhotos"
+				[perPage]="perPage"
+				[currentPage]="queryParams['page']"
+				(currentPageChange)="addPageToQueryParam($event)"
+				(paginationRangeChange)="paginate($event)"
+			></app-pagination>
+		</ng-container>
+	</section>
+</ng-container>

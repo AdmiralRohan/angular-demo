@@ -1,37 +1,31 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { AlbumsFacadeService } from "../../../albums/services/albums-facade.service";
+import { Subject, takeUntil } from "rxjs";
 import { BreadcrumbItem } from "../../../core/interfaces/breadcrumb-item";
+import { SpinnerService } from "../../../core/services/spinner.service";
 import { Utils } from "../../../core/utils";
-import { PhotosFacadeService } from "../../../photos/services/photos-facade.service";
-import { PostsFacadeService } from "../../../posts/services/posts-facade.service";
-import { UsersFacadeService } from "../../../users/services/users-facade.service";
 
 @Component({
 	selector: "app-layout",
 	templateUrl: "./layout.component.html",
 	styleUrls: ["./layout.component.scss"],
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
 	// Default value
 	breadcrumbItems: BreadcrumbItem[] = Utils.dashboardBreadcrumbItems;
+	isSpinnerVisible$ = this.spinner.isVisible$;
 
-	constructor(
-		private _router: Router,
-		public postsFacade: PostsFacadeService,
-		public albumsFacade: AlbumsFacadeService,
-		public photosFacade: PhotosFacadeService,
-		public usersFacade: UsersFacadeService,
-	) {}
+	private _onDestroy$ = new Subject<void>();
+
+	constructor(private _router: Router, public spinner: SpinnerService) {}
 
 	ngOnInit(): void {
 		this._checkCurrentRoute();
+	}
 
-		// For caching, as this is parent of all pages
-		this.postsFacade.fetchAndSavePostList();
-		this.albumsFacade.fetchAndSaveAlbumList();
-		this.photosFacade.fetchAndSavePhotoList();
-		this.usersFacade.fetchAndSaveUserList();
+	ngOnDestroy(): void {
+		this._onDestroy$.next();
+		this._onDestroy$.complete();
 	}
 
 	/**
@@ -45,7 +39,7 @@ export class LayoutComponent implements OnInit {
 		}
 
 		// From 2nd time onwards
-		this._router.events.subscribe((event) => {
+		this._router.events.pipe(takeUntil(this._onDestroy$)).subscribe((event) => {
 			if (event instanceof NavigationEnd) {
 				const currentRoute = event.url;
 				this.breadcrumbItems = this._makeBreadcrumbItems(currentRoute);

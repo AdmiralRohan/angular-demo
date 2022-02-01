@@ -1,5 +1,5 @@
 <div class="container row py-5">
-	<div class="col-md-3" *ngFor="let photo of photoList">
+	<div *ngFor="let photo of photoList" class="col-6 col-md-3">
 		<div class="card mb-4">
 			<div class="card-body d-flex flex-row justify-content-between p-0">
 				<img [src]="photo.thumbnailUrl" class="card-img" [alt]="photo.title" />

@@ -143,7 +143,7 @@ export class PostsFacadeService {
 					this._store.set("filteredPosts", [...sortedList]);
 					if (sortedList.length === 0) this._store.set("paginatedPosts", []);
 				} else {
-					this._store.set("filteredPosts", filteredPosts);
+					this._store.set("filteredPosts", [...filteredPosts]);
 				}
 			});
 	}

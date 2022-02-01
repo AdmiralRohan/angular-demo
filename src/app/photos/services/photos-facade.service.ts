@@ -65,7 +65,7 @@ export class PhotosFacadeService {
 	 * Called from component
 	 */
 	addQueryParamsToRoute() {
-		this._store.select("queryParams").subscribe((params) => {
+		this._store.select("queryParams").subscribe((params: QueryParams) => {
 			// It will trigger list filtering
 			if (Object.keys(params).length) {
 				this._router.navigate([], {
@@ -103,8 +103,6 @@ export class PhotosFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		// console.log("Route param changed", queryParams);
-
 		this._store
 			.select("photos")
 			.pipe(
@@ -123,8 +121,7 @@ export class PhotosFacadeService {
 				}),
 			)
 			.subscribe((filteredPhotos) => {
-				this._store.set("filteredPhotos", filteredPhotos);
-				if (filteredPhotos.length === 0) this._store.set("paginatedPhotos", []);
+				this._store.set("filteredPhotos", [...filteredPhotos]);
 			});
 	}
 

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
+import { postsFacadeMock } from "../../../core/mocks";
+import { PostsFacadeService } from "../../services/posts-facade.service";
 import { PostsComponent } from "./posts.component";
 
 describe("PostsComponent", () => {
@@ -9,6 +10,7 @@ describe("PostsComponent", () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			declarations: [PostsComponent],
+			providers: [{ provide: PostsFacadeService, useValue: postsFacadeMock }],
 		}).compileComponents();
 	});
 

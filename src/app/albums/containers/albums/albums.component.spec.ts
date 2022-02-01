@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
+import { albumsFacadeMock } from "../../../core/mocks";
+import { AlbumsFacadeService } from "../../services/albums-facade.service";
 import { AlbumsComponent } from "./albums.component";
 
 describe("AlbumsComponent", () => {
@@ -9,6 +10,7 @@ describe("AlbumsComponent", () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			declarations: [AlbumsComponent],
+			providers: [{ provide: AlbumsFacadeService, useValue: albumsFacadeMock }],
 		}).compileComponents();
 	});
 

@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
+import { ActivatedRoute } from "@angular/router";
+import { activatedRouteMock, photosFacadeMock } from "../../../core/mocks";
+import { PhotosFacadeService } from "../../services/photos-facade.service";
 import { PhotoComponent } from "./photo.component";
 
 describe("PhotoComponent", () => {
@@ -9,6 +11,10 @@ describe("PhotoComponent", () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			declarations: [PhotoComponent],
+			providers: [
+				{ provide: PhotosFacadeService, useValue: photosFacadeMock },
+				{ provide: ActivatedRoute, useValue: activatedRouteMock },
+			],
 		}).compileComponents();
 	});
 

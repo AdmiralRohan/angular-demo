@@ -112,7 +112,7 @@ export class PostsFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		// console.log("Route param changed", queryParams);
+		console.log("Route param changed", queryParams);
 
 		this._store
 			.select("posts")

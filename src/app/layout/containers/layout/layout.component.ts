@@ -39,7 +39,6 @@ export class LayoutComponent implements OnInit {
 	 */
 	private _checkCurrentRoute() {
 		// For first time
-
 		if (this._router.url) {
 			const currentRoute = this._router.url;
 			this.breadcrumbItems = this._makeBreadcrumbItems(currentRoute);
@@ -47,8 +46,6 @@ export class LayoutComponent implements OnInit {
 
 		// From 2nd time onwards
 		this._router.events.subscribe((event) => {
-			console.log(event);
-
 			if (event instanceof NavigationEnd) {
 				const currentRoute = event.url;
 				this.breadcrumbItems = this._makeBreadcrumbItems(currentRoute);

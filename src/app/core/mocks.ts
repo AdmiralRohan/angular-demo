@@ -7,11 +7,10 @@ import Posts from "./mocks/posts.json";
 import Users from "./mocks/users.json";
 
 /**
- * @deprecated
  * Not very useful till now \
  * Initially thought real data can be used, so saved mocks in files
  */
-const mockState: State = {
+export const mockState: State = {
 	posts: Posts,
 	filteredPosts: [],
 	paginatedPosts: [],
@@ -30,7 +29,7 @@ const mockState: State = {
 /**
  * Simplified inputs for easier typing
  */
-const miniMockState: State = {
+export const miniMockState: State = {
 	posts: [
 		{
 			userId: 1,
@@ -253,9 +252,6 @@ export const dataServiceMock = {
 	fetchUserList: () => of(Users),
 };
 
-/**
- * @deprecated
- */
 export const storeMock = {
 	select: (key: keyof State): Observable<any> => {
 		return of((mockState as any)[key]);

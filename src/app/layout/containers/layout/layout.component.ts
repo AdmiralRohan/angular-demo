@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
+import { Subject, takeUntil } from "rxjs";
 import { AlbumsFacadeService } from "../../../albums/services/albums-facade.service";
 import { BreadcrumbItem } from "../../../core/interfaces/breadcrumb-item";
 import { Utils } from "../../../core/utils";
@@ -12,9 +13,11 @@ import { UsersFacadeService } from "../../../users/services/users-facade.service
 	templateUrl: "./layout.component.html",
 	styleUrls: ["./layout.component.scss"],
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
 	// Default value
 	breadcrumbItems: BreadcrumbItem[] = Utils.dashboardBreadcrumbItems;
+
+	private _onDestroy$ = new Subject<void>();
 
 	constructor(
 		private _router: Router,
@@ -34,6 +37,11 @@ export class LayoutComponent implements OnInit {
 		this.usersFacade.fetchAndSaveUserList();
 	}
 
+	ngOnDestroy(): void {
+		this._onDestroy$.next();
+		this._onDestroy$.complete();
+	}
+
 	/**
 	 * For forming breadcrumb
 	 */
@@ -45,7 +53,7 @@ export class LayoutComponent implements OnInit {
 		}
 
 		// From 2nd time onwards
-		this._router.events.subscribe((event) => {
+		this._router.events.pipe(takeUntil(this._onDestroy$)).subscribe((event) => {
 			if (event instanceof NavigationEnd) {
 				const currentRoute = event.url;
 				this.breadcrumbItems = this._makeBreadcrumbItems(currentRoute);

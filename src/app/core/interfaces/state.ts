@@ -70,4 +70,5 @@ export interface State {
 	 * Holds user list from API
 	 */
 	users: User[];
+	isSpinnerVisible: boolean;
 }

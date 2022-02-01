@@ -19,6 +19,7 @@ const initialState: State = {
 	filteredAlbums: [],
 	paginatedAlbums: [],
 	users: [],
+	isSpinnerVisible: false,
 };
 
 @Injectable({

@@ -5,9 +5,15 @@ import { RouterModule } from "@angular/router";
 import { PaginationComponent } from "./components/pagination/pagination.component";
 import { PhotoListComponent } from "./components/photo-list/photo-list.component";
 import { SearchFormComponent } from "./components/search-form/search-form.component";
+import { SpinnerComponent } from "./components/spinner/spinner.component";
 import { PreventDefaultEventDirective } from "./directives/prevent-default-event/prevent-default-event.directive";
 
-const components: any[] = [PaginationComponent, SearchFormComponent, PhotoListComponent];
+const components: any[] = [
+	PaginationComponent,
+	SearchFormComponent,
+	PhotoListComponent,
+	SpinnerComponent,
+];
 const directives: any[] = [PreventDefaultEventDirective];
 const pipes: any[] = [];
 

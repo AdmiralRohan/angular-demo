@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { AlbumsFacadeService } from "../../../albums/services/albums-facade.service";
 import { BreadcrumbItem } from "../../../core/interfaces/breadcrumb-item";
+import { SpinnerService } from "../../../core/services/spinner.service";
 import { Utils } from "../../../core/utils";
 import { PhotosFacadeService } from "../../../photos/services/photos-facade.service";
 import { PostsFacadeService } from "../../../posts/services/posts-facade.service";
@@ -16,6 +17,7 @@ import { UsersFacadeService } from "../../../users/services/users-facade.service
 export class LayoutComponent implements OnInit, OnDestroy {
 	// Default value
 	breadcrumbItems: BreadcrumbItem[] = Utils.dashboardBreadcrumbItems;
+	isSpinnerVisible$ = this.spinner.isVisible$;
 
 	private _onDestroy$ = new Subject<void>();
 
@@ -25,6 +27,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 		public albumsFacade: AlbumsFacadeService,
 		public photosFacade: PhotosFacadeService,
 		public usersFacade: UsersFacadeService,
+		public spinner: SpinnerService,
 	) {}
 
 	ngOnInit(): void {

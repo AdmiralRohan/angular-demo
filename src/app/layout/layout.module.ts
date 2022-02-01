@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { SharedModule } from "../shared/shared.module";
 import { BreadcrumbComponent } from "./containers/breadcrumb/breadcrumb.component";
 import { LayoutComponent } from "./containers/layout/layout.component";
 import { LeftNavComponent } from "./containers/left-nav/left-nav.component";
@@ -8,6 +9,6 @@ import { LayoutRoutingModule } from "./layout-routing.module";
 
 @NgModule({
 	declarations: [LeftNavComponent, LayoutComponent, BreadcrumbComponent, NotFoundComponent],
-	imports: [CommonModule, LayoutRoutingModule],
+	imports: [CommonModule, LayoutRoutingModule, SharedModule],
 })
 export class LayoutModule {}

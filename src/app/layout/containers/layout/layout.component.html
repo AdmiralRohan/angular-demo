@@ -1,11 +1,15 @@
 <!-- Global layout -->
-<div class="wrapper d-flex flex-row">
-	<div class="col-sm-3 d-none d-md-block">
-		<app-left-nav></app-left-nav>
-	</div>
+<app-spinner *ngIf="isSpinnerVisible$ | async; else layoutContent"></app-spinner>
 
-	<main class="p-3 col-md-9">
-		<app-breadcrumb [breadcrumbItems]="breadcrumbItems"></app-breadcrumb>
-		<router-outlet></router-outlet>
-	</main>
-</div>
+<ng-template #layoutContent>
+	<div class="wrapper d-flex flex-row">
+		<div class="col-sm-3 d-none d-md-block">
+			<app-left-nav></app-left-nav>
+		</div>
+
+		<main class="p-3 col-md-9">
+			<app-breadcrumb [breadcrumbItems]="breadcrumbItems"></app-breadcrumb>
+			<router-outlet></router-outlet>
+		</main>
+	</div>
+</ng-template>

@@ -27,6 +27,7 @@ export const mockState: State = {
 	photosByAlbum: [],
 	filteredPhotosByAlbum: [],
 	paginatedPhotosByAlbum: [],
+	isSpinnerVisible: false,
 };
 
 /**
@@ -315,6 +316,7 @@ export const miniMockState: State = {
 			thumbnailUrl: "https://via.placeholder.com/150/24f355",
 		},
 	],
+	isSpinnerVisible: false,
 };
 
 export const dataServiceMock = {

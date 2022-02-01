@@ -68,9 +68,9 @@ export class AlbumsFacadeService {
 
 	paginate(paginationRange: PaginationRange) {
 		const filteredList: Album[] = this._store.getLatestValue("filteredAlbums");
-		const paginatedList = filteredList.filter(
-			(_: Album, index: number) =>
-				index >= paginationRange.startIndex && index <= paginationRange.endIndex,
+		const paginatedList = filteredList.slice(
+			paginationRange.startIndex,
+			paginationRange.endIndex + 1,
 		);
 
 		this._store.set("paginatedAlbums", paginatedList);

@@ -43,9 +43,9 @@ export class PhotosFacadeService {
 
 	paginate(paginationRange: PaginationRange) {
 		const filteredList: Photo[] = this._store.getLatestValue("filteredPhotos");
-		const paginatedList = filteredList.filter(
-			(_: Photo, index: number) =>
-				index >= paginationRange.startIndex && index <= paginationRange.endIndex,
+		const paginatedList = filteredList.slice(
+			paginationRange.startIndex,
+			paginationRange.endIndex + 1,
 		);
 
 		this._store.set("paginatedPhotos", paginatedList);

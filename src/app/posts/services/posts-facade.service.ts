@@ -46,10 +46,6 @@ export class PostsFacadeService {
 		});
 	}
 
-	changeSortDirection(sortDirection: SortDirection) {
-		this._store.set("postSortDirection", sortDirection);
-	}
-
 	paginate(paginationRange: PaginationRange) {
 		const filteredList: Post[] = this._store.getLatestValue("filteredPosts");
 
@@ -113,8 +109,6 @@ export class PostsFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		// console.log("Route param changed", queryParams);
-
 		this._store
 			.select("posts")
 			.pipe(
@@ -122,6 +116,7 @@ export class PostsFacadeService {
 				filter((posts: Post[]) => posts.length > 0),
 				first(),
 				map((posts: Post[]) => {
+					// Search
 					return queryParams.search
 						? posts.filter((post) => {
 								// TODO: Hack to fix `No index signature with a parameter of type 'string' was found on type 'Post'` (ts7053)
@@ -134,16 +129,18 @@ export class PostsFacadeService {
 				}),
 			)
 			.subscribe((filteredPosts) => {
-				console.log("Filtered:", filteredPosts.length);
-
+				// Sort
 				if (queryParams.sort) {
+					// Queryparam represent current status
+					// If queryParams have desc, means need to sort in asc order
 					const newSortDirection = queryParams.sort === "asc" ? "desc" : "asc";
 					this._store.set("postSortDirection", newSortDirection);
 
 					const sortedList = filteredPosts.sort((a, b) =>
 						newSortDirection === "asc" ? b.id - a.id : a.id - b.id,
 					);
-					this._store.set("filteredPosts", sortedList);
+
+					this._store.set("filteredPosts", [...sortedList]);
 					if (sortedList.length === 0) this._store.set("paginatedPosts", []);
 				} else {
 					this._store.set("filteredPosts", filteredPosts);

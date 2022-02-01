@@ -38,9 +38,9 @@ Post has 3 lists in our store:
 
 All these actions are triggered through query params. We update query params through `searchTermChanged()`, `sortList()`, `addPageToQueryParam()` (current page change through pagination) methods of posts.component.
 
-Now we are subscribing to queryParams change event in `listenToQueryParamsChange()` in posts-facade. That will call `_filterList()` in facade itself.
+Now we are subscribing to queryParams change event in `listenToQueryParamsChange()` in posts-facade. That will call `_filterList()` in facade itself. (1)
 
-First it will fetch master post list (`posts`) and filter it with search term, then applies if sorting is applicable. Hence `filteredList` is formed here.
+First it will fetch master post list (`posts`) and filter it with search term, then applies if sorting is applicable. Hence `filteredList` is formed here. (2)
 
 `paginationRange` can change if:
 
@@ -48,3 +48,5 @@ First it will fetch master post list (`posts`) and filter it with search term, t
 - user types something else on search box, and it changes `filteredList`
 
 No matter what, we will just update the queryParams (source of truth), currentPage will be inputtted into pagination component, then new `paginationRange` will be calculated and propagated above (checked in `ngOnChanges()`).
+
+Sorting starts from clicking on the icon in list header. It reverses the sort direction and emits event. That will add the sorting status in queryParams. That will filter the list as described above in point 1 and 2.

@@ -25,6 +25,7 @@
 	<ng-container *ngIf="queryParams$ | async as queryParams">
 		<app-pagination
 			[list]="filteredPosts"
+			[perPage]="perPage"
 			[currentPage]="queryParams['page']"
 			(currentPageChange)="addPageToQueryParam($event)"
 			(paginationRangeChange)="paginate($event)"

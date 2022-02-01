@@ -18,6 +18,7 @@ export class PostsComponent implements OnInit {
 	filteredPosts$ = this.postsFacade.filteredPosts$;
 	paginatedPosts$ = this.postsFacade.paginatedPosts$;
 	queryParams$ = this.postsFacade.queryParams$;
+	perPage = environment.perPage.posts;
 
 	readonly filters: SearchFilter[] = [
 		{ id: "title", value: "Title" },

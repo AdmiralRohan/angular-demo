@@ -11,7 +11,7 @@ import { Utils } from "../../core/utils";
 @Injectable({
 	providedIn: "root",
 })
-export class PhotosFacadeService {
+export class AlbumFacadeService {
 	constructor(
 		private _dataService: DataService,
 		private _store: Store,
@@ -19,42 +19,25 @@ export class PhotosFacadeService {
 		private _route: ActivatedRoute,
 	) {}
 
-	get filteredPhotos$(): Observable<Photo[]> {
-		return this._store.select("filteredPhotos");
+	get filteredPhotosByAlbum$(): Observable<Photo[]> {
+		return this._store.select("filteredPhotosByAlbum");
 	}
 	get queryParams$(): Observable<QueryParams> {
 		return this._store.select("queryParams");
 	}
-	get paginatedPhotos$(): Observable<Photo[]> {
-		return this._store.select("paginatedPhotos");
+	get paginatedPhotosByAlbum$(): Observable<Photo[]> {
+		return this._store.select("paginatedPhotosByAlbum");
 	}
 
-	/**
-	 * Fetch and save photo list in store
-	 */
-	fetchAndSavePhotoList() {
-		this._dataService.fetchPhotoList().subscribe((photoListFromAPI) => {
-			this._store.set("filteredPhotos", photoListFromAPI);
-			this._store.set("photos", photoListFromAPI);
-		});
-	}
+	paginateAlbumPhotos(paginationRange: PaginationRange) {
+		const filteredList: Photo[] = this._store.getLatestValue("filteredPhotosByAlbum");
 
-	/**
-	 * Used to show photo list per album
-	 */
-	loadPhotosByAlbum(photoList: Photo[] = []) {
-		this._store.set("filteredPhotosByAlbum", photoList);
-		this._store.set("photosByAlbum", photoList);
-	}
-
-	paginate(paginationRange: PaginationRange) {
-		const filteredList: Photo[] = this._store.getLatestValue("filteredPhotos");
 		const paginatedList = filteredList.slice(
 			paginationRange.startIndex,
 			paginationRange.endIndex + 1,
 		);
 
-		this._store.set("paginatedPhotos", paginatedList);
+		this._store.set("paginatedPhotosByAlbum", paginatedList);
 	}
 
 	/**
@@ -110,14 +93,14 @@ export class PhotosFacadeService {
 	 */
 	private _filterList(queryParams: QueryParams) {
 		this._store
-			.select("photos")
+			.select("photosByAlbum")
 			.pipe(
 				filter((photos: Photo[]) => photos.length > 0),
 				first(),
 				map((photos: Photo[]) => {
 					return queryParams.search
 						? photos.filter((photo) => {
-								// TODO: Hack to fix `No index signature with a parameter of type 'string' was found on type 'Photo'` (ts7053)
+								// TODO: Hack to fix `No index signature with a parameter of type 'string' was found on type 'Album'` (ts7053)
 								return Utils.isStringMatching(
 									(photo as any)[queryParams.filterBy],
 									queryParams.search,
@@ -127,17 +110,7 @@ export class PhotosFacadeService {
 				}),
 			)
 			.subscribe((filteredPhotos) => {
-				console.log(filteredPhotos);
-
-				this._store.set("filteredPhotos", [...filteredPhotos]);
+				this._store.set("filteredPhotosByAlbum", [...filteredPhotos]);
 			});
-	}
-
-	getPhotoById(photoId: number): Observable<Photo | undefined> {
-		return this._store
-			.select("photos")
-			.pipe(
-				map((photos: Photo[]): Photo | undefined => photos.find((photo) => photo.id === photoId)),
-			);
 	}
 }

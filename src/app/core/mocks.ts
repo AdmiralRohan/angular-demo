@@ -24,6 +24,9 @@ export const mockState: State = {
 	filteredAlbums: [],
 	paginatedAlbums: [],
 	users: Users,
+	photosByAlbum: [],
+	filteredPhotosByAlbum: [],
+	paginatedPhotosByAlbum: [],
 };
 
 /**
@@ -243,6 +246,9 @@ export const miniMockState: State = {
 			},
 		},
 	],
+	photosByAlbum: [],
+	filteredPhotosByAlbum: [],
+	paginatedPhotosByAlbum: [],
 };
 
 export const dataServiceMock = {
@@ -264,6 +270,7 @@ export const miniStoreMock = {
 	getLatestValue: (key: keyof State): Observable<any> => {
 		return (miniMockState as any)[key];
 	},
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	set: (key: keyof State, currentValue: any) => {},
 };
 

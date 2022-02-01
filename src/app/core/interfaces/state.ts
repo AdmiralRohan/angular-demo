@@ -43,6 +43,18 @@ export interface State {
 	 */
 	paginatedPhotos: Photo[];
 	/**
+	 * Holds photo list from API
+	 */
+	photosByAlbum: Photo[];
+	/**
+	 * Initially list from API is filtered out by search term (if any)
+	 */
+	filteredPhotosByAlbum: Photo[];
+	/**
+	 * Filtered photos are paginated and used in view
+	 */
+	paginatedPhotosByAlbum: Photo[];
+	/**
 	 * Holds album list from API
 	 */
 	albums: Album[];

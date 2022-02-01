@@ -74,6 +74,17 @@ export class AlbumsFacadeService {
 		this._store.set("paginatedAlbums", paginatedList);
 	}
 
+	paginateAlbumPhotos(paginationRange: PaginationRange) {
+		const filteredList: Album[] = this._store.getLatestValue("filteredPhotosByAlbum");
+
+		const paginatedList = filteredList.slice(
+			paginationRange.startIndex,
+			paginationRange.endIndex + 1,
+		);
+
+		this._store.set("paginatedPhotosByAlbum", paginatedList);
+	}
+
 	/**
 	 * Update store
 	 * @param newParams

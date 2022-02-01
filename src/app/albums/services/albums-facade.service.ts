@@ -21,9 +21,7 @@ export class AlbumsFacadeService {
 	) {}
 
 	get filteredAlbums$(): Observable<Album[]> {
-		return this._store
-			.select("filteredAlbums")
-			.pipe(map((albums: Album[]) => albums.filter((_, i) => i < 15)));
+		return this._store.select("filteredAlbums");
 	}
 	get queryParams$(): Observable<QueryParams> {
 		return this._store.select("queryParams");

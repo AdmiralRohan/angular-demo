@@ -20,9 +20,7 @@ export class PhotosFacadeService {
 	) {}
 
 	get filteredPhotos$(): Observable<Photo[]> {
-		return this._store
-			.select("filteredPhotos")
-			.pipe(map((photos: Photo[]) => photos.filter((_, i) => i < 15)));
+		return this._store.select("filteredPhotos");
 	}
 	get queryParams$(): Observable<QueryParams> {
 		return this._store.select("queryParams");

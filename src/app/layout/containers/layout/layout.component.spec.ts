@@ -11,7 +11,6 @@ import { PhotosFacadeService } from "../../../photos/services/photos-facade.serv
 import { PostsFacadeService } from "../../../posts/services/posts-facade.service";
 import { UsersFacadeService } from "../../../users/services/users-facade.service";
 import { BreadcrumbComponent } from "../breadcrumb/breadcrumb.component";
-import { HeaderComponent } from "../header/header.component";
 import { LeftNavComponent } from "../left-nav/left-nav.component";
 import { LayoutComponent } from "./layout.component";
 
@@ -21,7 +20,7 @@ describe("LayoutComponent", () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [LayoutComponent, HeaderComponent, BreadcrumbComponent, LeftNavComponent],
+			declarations: [LayoutComponent, BreadcrumbComponent, LeftNavComponent],
 			imports: [RouterTestingModule],
 			providers: [
 				{ provide: PostsFacadeService, useValue: postsFacadeMock },

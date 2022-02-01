@@ -25,3 +25,26 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Search, Sort, Pagination flow
+
+I'm using post list for this example.
+
+Post has 3 lists in our store:
+
+- posts: main list fetched from API
+- fetchedPosts: main list filtered by search term and sorted list
+- paginatedPosts: final list, which is displayed at the page
+
+All these actions are triggered through query params. We update query params through `searchTermChanged()`, `sortList()`, `addPageToQueryParam()` (current page change through pagination) methods of posts.component.
+
+Now we are subscribing to queryParams change event in `listenToQueryParamsChange()` in posts-facade. That will call `_filterList()` in facade itself.
+
+First it will fetch master post list (`posts`) and filter it with search term, then applies if sorting is applicable. Hence `filteredList` is formed here.
+
+`paginationRange` can change if:
+
+- user changes page via pagination option
+- user types something else on search box, and it changes `filteredList`
+
+No matter what, we will just update the queryParams (source of truth), currentPage will be inputtted into pagination component, then new `paginationRange` will be calculated and propagated above (checked in `ngOnChanges()`).

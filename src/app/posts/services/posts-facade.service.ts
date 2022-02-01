@@ -74,7 +74,7 @@ export class PostsFacadeService {
 	 * Called from component
 	 */
 	addQueryParamsToRoute() {
-		this._store.select("queryParams").subscribe((params) => {
+		this._store.select("queryParams").subscribe((params: QueryParams) => {
 			// It will trigger list filtering
 			if (Object.keys(params).length) {
 				this._router.navigate([], {
@@ -100,6 +100,7 @@ export class PostsFacadeService {
 
 			if (isFirstTime) {
 				isFirstTime = false;
+				// Saving in queryParams for future reference, otherwise in case of appending it will reset initial state
 				this.appendToQueryParams(queryParams);
 			}
 
@@ -112,11 +113,12 @@ export class PostsFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		console.log("Route param changed", queryParams);
+		// console.log("Route param changed", queryParams);
 
 		this._store
 			.select("posts")
 			.pipe(
+				// Wait for post to come from API, in case of reload
 				filter((posts: Post[]) => posts.length > 0),
 				first(),
 				map((posts: Post[]) => {
@@ -132,6 +134,8 @@ export class PostsFacadeService {
 				}),
 			)
 			.subscribe((filteredPosts) => {
+				console.log("Filtered:", filteredPosts.length);
+
 				if (queryParams.sort) {
 					const newSortDirection = queryParams.sort === "asc" ? "desc" : "asc";
 					this._store.set("postSortDirection", newSortDirection);
@@ -143,7 +147,6 @@ export class PostsFacadeService {
 					if (sortedList.length === 0) this._store.set("paginatedPosts", []);
 				} else {
 					this._store.set("filteredPosts", filteredPosts);
-					if (filteredPosts.length === 0) this._store.set("paginatedPosts", []);
 				}
 			});
 	}

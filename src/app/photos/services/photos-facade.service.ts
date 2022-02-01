@@ -20,9 +20,7 @@ export class PhotosFacadeService {
 	) {}
 
 	get filteredPhotos$(): Observable<Photo[]> {
-		return this._store
-			.select("filteredPhotos")
-			.pipe(map((photos: Photo[]) => photos.filter((_, i) => i < 15)));
+		return this._store.select("filteredPhotos");
 	}
 	get queryParams$(): Observable<QueryParams> {
 		return this._store.select("queryParams");
@@ -43,9 +41,9 @@ export class PhotosFacadeService {
 
 	paginate(paginationRange: PaginationRange) {
 		const filteredList: Photo[] = this._store.getLatestValue("filteredPhotos");
-		const paginatedList = filteredList.filter(
-			(_: Photo, index: number) =>
-				index >= paginationRange.startIndex && index <= paginationRange.endIndex,
+		const paginatedList = filteredList.slice(
+			paginationRange.startIndex,
+			paginationRange.endIndex + 1,
 		);
 
 		this._store.set("paginatedPhotos", paginatedList);
@@ -65,7 +63,7 @@ export class PhotosFacadeService {
 	 * Called from component
 	 */
 	addQueryParamsToRoute() {
-		this._store.select("queryParams").subscribe((params) => {
+		this._store.select("queryParams").subscribe((params: QueryParams) => {
 			// It will trigger list filtering
 			if (Object.keys(params).length) {
 				this._router.navigate([], {
@@ -103,8 +101,6 @@ export class PhotosFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		// console.log("Route param changed", queryParams);
-
 		this._store
 			.select("photos")
 			.pipe(
@@ -123,8 +119,7 @@ export class PhotosFacadeService {
 				}),
 			)
 			.subscribe((filteredPhotos) => {
-				this._store.set("filteredPhotos", filteredPhotos);
-				if (filteredPhotos.length === 0) this._store.set("paginatedPhotos", []);
+				this._store.set("filteredPhotos", [...filteredPhotos]);
 			});
 	}
 

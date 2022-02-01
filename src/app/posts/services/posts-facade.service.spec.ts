@@ -121,19 +121,6 @@ describe("PostsFacadeService", () => {
 		expect(tempStore["filteredPosts"]).toEqual(mockPostList);
 	});
 
-	it("verify changeSortDirection()", () => {
-		const tempStore: { [key: string]: any } = { postSortDirection: "desc" };
-		spyOn(miniStoreMock, "set").and.callFake((key: keyof State, currentValue: any) => {
-			tempStore[key] = currentValue;
-		});
-		spyOn(miniStoreMock, "select").and.callFake((key: keyof State) => {
-			return (tempStore as any)[key];
-		});
-
-		service.changeSortDirection("asc");
-		expect(tempStore["postSortDirection"]).toEqual("asc");
-	});
-
 	it("verify paginate()", () => {
 		const tempStore: { [key: string]: any } = {
 			filteredPosts: [

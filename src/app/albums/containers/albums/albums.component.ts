@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { environment } from "../../../../environments/environment";
 import { PaginationRange } from "../../../core/interfaces/pagination-range";
 import { QueryParams } from "../../../core/interfaces/query-params";
 import { SearchFilter } from "../../../core/interfaces/search-filter";
@@ -14,6 +15,8 @@ export class AlbumsComponent implements OnInit {
 	filteredAlbums$ = this.albumsFacade.filteredAlbums$;
 	paginatedAlbums$ = this.albumsFacade.paginatedAlbums$;
 	queryParams$ = this.albumsFacade.queryParams$;
+
+	perPage = environment.perPage.albums;
 
 	readonly filters: SearchFilter[] = [
 		{ id: "title", value: "Title" },

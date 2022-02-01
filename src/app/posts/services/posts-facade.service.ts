@@ -46,17 +46,13 @@ export class PostsFacadeService {
 		});
 	}
 
-	changeSortDirection(sortDirection: SortDirection) {
-		this._store.set("postSortDirection", sortDirection);
-	}
-
 	paginate(paginationRange: PaginationRange) {
 		const filteredList: Post[] = this._store.getLatestValue("filteredPosts");
-		const paginatedList = filteredList.filter(
-			(_: Post, index: number) =>
-				index >= paginationRange.startIndex && index <= paginationRange.endIndex,
-		);
 
+		const paginatedList = filteredList.slice(
+			paginationRange.startIndex,
+			paginationRange.endIndex + 1,
+		);
 		this._store.set("paginatedPosts", paginatedList);
 	}
 
@@ -74,7 +70,7 @@ export class PostsFacadeService {
 	 * Called from component
 	 */
 	addQueryParamsToRoute() {
-		this._store.select("queryParams").subscribe((params) => {
+		this._store.select("queryParams").subscribe((params: QueryParams) => {
 			// It will trigger list filtering
 			if (Object.keys(params).length) {
 				this._router.navigate([], {
@@ -100,6 +96,7 @@ export class PostsFacadeService {
 
 			if (isFirstTime) {
 				isFirstTime = false;
+				// Saving in queryParams for future reference, otherwise in case of appending it will reset initial state
 				this.appendToQueryParams(queryParams);
 			}
 
@@ -112,14 +109,14 @@ export class PostsFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		// console.log("Route param changed", queryParams);
-
 		this._store
 			.select("posts")
 			.pipe(
+				// Wait for post to come from API, in case of reload
 				filter((posts: Post[]) => posts.length > 0),
 				first(),
 				map((posts: Post[]) => {
+					// Search
 					return queryParams.search
 						? posts.filter((post) => {
 								// TODO: Hack to fix `No index signature with a parameter of type 'string' was found on type 'Post'` (ts7053)
@@ -132,18 +129,21 @@ export class PostsFacadeService {
 				}),
 			)
 			.subscribe((filteredPosts) => {
+				// Sort
 				if (queryParams.sort) {
+					// Queryparam represent current status
+					// If queryParams have desc, means need to sort in asc order
 					const newSortDirection = queryParams.sort === "asc" ? "desc" : "asc";
 					this._store.set("postSortDirection", newSortDirection);
 
 					const sortedList = filteredPosts.sort((a, b) =>
 						newSortDirection === "asc" ? b.id - a.id : a.id - b.id,
 					);
-					this._store.set("filteredPosts", sortedList);
+
+					this._store.set("filteredPosts", [...sortedList]);
 					if (sortedList.length === 0) this._store.set("paginatedPosts", []);
 				} else {
-					this._store.set("filteredPosts", filteredPosts);
-					if (filteredPosts.length === 0) this._store.set("paginatedPosts", []);
+					this._store.set("filteredPosts", [...filteredPosts]);
 				}
 			});
 	}

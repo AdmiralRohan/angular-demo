@@ -21,9 +21,7 @@ export class AlbumsFacadeService {
 	) {}
 
 	get filteredAlbums$(): Observable<Album[]> {
-		return this._store
-			.select("filteredAlbums")
-			.pipe(map((albums: Album[]) => albums.filter((_, i) => i < 15)));
+		return this._store.select("filteredAlbums");
 	}
 	get queryParams$(): Observable<QueryParams> {
 		return this._store.select("queryParams");
@@ -68,9 +66,9 @@ export class AlbumsFacadeService {
 
 	paginate(paginationRange: PaginationRange) {
 		const filteredList: Album[] = this._store.getLatestValue("filteredAlbums");
-		const paginatedList = filteredList.filter(
-			(_: Album, index: number) =>
-				index >= paginationRange.startIndex && index <= paginationRange.endIndex,
+		const paginatedList = filteredList.slice(
+			paginationRange.startIndex,
+			paginationRange.endIndex + 1,
 		);
 
 		this._store.set("paginatedAlbums", paginatedList);
@@ -90,7 +88,7 @@ export class AlbumsFacadeService {
 	 * Called from component
 	 */
 	addQueryParamsToRoute() {
-		this._store.select("queryParams").subscribe((params) => {
+		this._store.select("queryParams").subscribe((params: QueryParams) => {
 			// It will trigger list filtering
 			if (Object.keys(params).length) {
 				this._router.navigate([], {
@@ -128,8 +126,6 @@ export class AlbumsFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		// console.log("Route param changed", queryParams);
-
 		this._store
 			.select("albums")
 			.pipe(
@@ -148,8 +144,7 @@ export class AlbumsFacadeService {
 				}),
 			)
 			.subscribe((filteredAlbums) => {
-				this._store.set("filteredAlbums", filteredAlbums);
-				if (filteredAlbums.length === 0) this._store.set("paginatedAlbums", []);
+				this._store.set("filteredAlbums", [...filteredAlbums]);
 			});
 	}
 

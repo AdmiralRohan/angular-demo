@@ -15,7 +15,8 @@ export interface State {
 	 */
 	filteredPosts: Post[];
 	/**
-	 * Filtered posts are paginated and used in view
+	 * Currently in view. \
+	 * Filtered posts are paginated.
 	 */
 	paginatedPosts: Post[];
 	/**

@@ -12,4 +12,9 @@ export const baseEnv = {
 	 * baseURL of server
 	 */
 	apiBaseURL: "",
+	perPage: {
+		posts: 5,
+		photos: 8,
+		albums: 6,
+	},
 };

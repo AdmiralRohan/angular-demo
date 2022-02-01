@@ -17,17 +17,10 @@ export class PostListComponent {
 	 * Indicates in which way we are going to sort next if triggered
 	 */
 	@Input() sortDirection: SortDirection = "none";
-	@Output() sortListEvent = new EventEmitter<boolean>();
-	@Output() changeSortDirectionEvent = new EventEmitter<SortDirection>();
-
-	private _changeSortDirection() {
-		const reversedSortDirection: SortDirection = this.sortDirection === "asc" ? "desc" : "asc";
-		this.changeSortDirectionEvent.emit(reversedSortDirection);
-	}
+	@Output() sortListEvent = new EventEmitter<void>();
 
 	sortList() {
-		this._changeSortDirection();
-		this.sortListEvent.emit(true);
+		this.sortListEvent.emit();
 	}
 
 	listTrackById(index: number, post: Post): number {

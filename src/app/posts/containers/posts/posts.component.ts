@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+import { environment } from "../../../../environments/environment";
 import { PaginationRange } from "../../../core/interfaces/pagination-range";
 import { QueryParams } from "../../../core/interfaces/query-params";
 import { SearchFilter } from "../../../core/interfaces/search-filter";
 import { SearchTermChangeEvent } from "../../../core/interfaces/search-term-change-event";
-import { SortDirection } from "../../../core/interfaces/sort-direction";
 import { PostsFacadeService } from "../../services/posts-facade.service";
 
 /**
@@ -18,6 +18,7 @@ export class PostsComponent implements OnInit {
 	filteredPosts$ = this.postsFacade.filteredPosts$;
 	paginatedPosts$ = this.postsFacade.paginatedPosts$;
 	queryParams$ = this.postsFacade.queryParams$;
+	perPage = environment.perPage.posts;
 
 	readonly filters: SearchFilter[] = [
 		{ id: "title", value: "Title" },
@@ -48,13 +49,6 @@ export class PostsComponent implements OnInit {
 	 */
 	sortList() {
 		this.postsFacade.appendToQueryParams({ sort: this.postsFacade.sortDirection });
-	}
-
-	/**
-	 * Listening to children events
-	 */
-	changeSortDirection(sortDirection: SortDirection) {
-		this.postsFacade.changeSortDirection(sortDirection);
 	}
 
 	/**

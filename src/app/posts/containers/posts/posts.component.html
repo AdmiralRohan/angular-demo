@@ -16,7 +16,6 @@
 		[postList]="paginatedPosts"
 		[sortDirection]="postsFacade.sortDirection"
 		(sortListEvent)="sortList()"
-		(changeSortDirectionEvent)="changeSortDirection($event)"
 	></app-post-list>
 </section>
 
@@ -25,6 +24,7 @@
 	<ng-container *ngIf="queryParams$ | async as queryParams">
 		<app-pagination
 			[list]="filteredPosts"
+			[perPage]="perPage"
 			[currentPage]="queryParams['page']"
 			(currentPageChange)="addPageToQueryParam($event)"
 			(paginationRangeChange)="paginate($event)"

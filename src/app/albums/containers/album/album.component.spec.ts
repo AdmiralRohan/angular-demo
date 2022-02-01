@@ -1,7 +1,14 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { activatedRouteMock, albumsFacadeMock } from "../../../core/mocks";
+import {
+	activatedRouteMock,
+	albumFacadeMock,
+	albumsFacadeMock,
+	photosFacadeMock,
+} from "../../../core/mocks";
+import { PhotosFacadeService } from "../../../photos/services/photos-facade.service";
+import { AlbumFacadeService } from "../../services/album-facade.service";
 import { AlbumsFacadeService } from "../../services/albums-facade.service";
 import { AlbumComponent } from "./album.component";
 
@@ -15,6 +22,8 @@ describe("AlbumComponent", () => {
 			imports: [RouterTestingModule],
 			providers: [
 				{ provide: AlbumsFacadeService, useValue: albumsFacadeMock },
+				{ provide: AlbumFacadeService, useValue: albumFacadeMock },
+				{ provide: PhotosFacadeService, useValue: photosFacadeMock },
 				{ provide: ActivatedRoute, useValue: activatedRouteMock },
 			],
 		}).compileComponents();

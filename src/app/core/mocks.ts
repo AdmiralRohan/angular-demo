@@ -380,6 +380,11 @@ export const albumsFacadeMock = {
 	listenToQueryParamsChange: () => {},
 	fetchAndSaveAlbumList: () => {},
 };
+export const albumFacadeMock = {
+	addQueryParamsToRoute: () => {},
+	listenToQueryParamsChange: () => {},
+	fetchAndSaveAlbumList: () => {},
+};
 export const photosFacadeMock = {
 	addQueryParamsToRoute: () => {},
 	listenToQueryParamsChange: () => {},

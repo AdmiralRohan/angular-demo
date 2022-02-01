@@ -118,7 +118,7 @@ describe("UsersFacadeService", () => {
 					photos: [],
 				},
 			];
-			expect(result).toEqual(expectedResult);
+			expect(result.map((album) => album.id)).toEqual(expectedResult.map((album) => album.id));
 			done();
 		});
 	});

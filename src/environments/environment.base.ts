@@ -14,7 +14,7 @@ export const baseEnv = {
 	apiBaseURL: "",
 	perPage: {
 		posts: 5,
-		photos: 5,
-		albums: 5,
+		photos: 8,
+		albums: 6,
 	},
 };

@@ -90,7 +90,7 @@ export class AlbumsFacadeService {
 	 * Called from component
 	 */
 	addQueryParamsToRoute() {
-		this._store.select("queryParams").subscribe((params) => {
+		this._store.select("queryParams").subscribe((params: QueryParams) => {
 			// It will trigger list filtering
 			if (Object.keys(params).length) {
 				this._router.navigate([], {
@@ -128,8 +128,6 @@ export class AlbumsFacadeService {
 	 * @param queryParams
 	 */
 	private _filterList(queryParams: QueryParams) {
-		// console.log("Route param changed", queryParams);
-
 		this._store
 			.select("albums")
 			.pipe(
@@ -148,8 +146,7 @@ export class AlbumsFacadeService {
 				}),
 			)
 			.subscribe((filteredAlbums) => {
-				this._store.set("filteredAlbums", filteredAlbums);
-				if (filteredAlbums.length === 0) this._store.set("paginatedAlbums", []);
+				this._store.set("filteredAlbums", [...filteredAlbums]);
 			});
 	}
 

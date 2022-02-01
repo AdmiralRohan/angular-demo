@@ -9,15 +9,11 @@ export class SpinnerService {
 	constructor(private _store: Store) {}
 
 	start() {
-		console.log("Start");
 		this._store.set("isSpinnerVisible", true);
 	}
 
 	stop() {
-		console.log("Stop");
-		setTimeout(() => {
-			this._store.set("isSpinnerVisible", false);
-		}, 2000);
+		this._store.set("isSpinnerVisible", false);
 	}
 
 	get isVisible$(): Observable<boolean> {
